@@ -17,6 +17,12 @@ display_menu(){
 		case $selection in
 			[Yy]* )
 				echo "Yes"
+				# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe
+				echo ""
+				touch /etc/modprobe.d/cramfs.conf
+				echo "install cramfs /bin/true" > /etc/modprobe.d/cramfs.conf
+				chmod 644 /etc/modprobe.d/cramfs.conf
+				rmmod cramfs
 			;;
 			[Nn]* )
 				echo "No"
