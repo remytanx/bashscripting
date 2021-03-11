@@ -16,51 +16,49 @@ display_menu(){
 		read -p "Input Selection: " selection
 		case $selection in
 			[Yy]* )
-				echo "\nYes is chosen"
-				# Create a log file for done steps.
-				touch /tmp/rhel8-3-remediation.txt
+				echo -e "\nYes is chosen. Proceed with remediation.\n"
+				
 				# Create and assign local environment variable
 				log='/tmp/rhel8-3-remediation.txt'
+				
+				# File exist validation check
+				if [[ ! -f "$log" ]]
+				then
+					echo "File '${log}' not found. Creating file..."
+					# Create a log file for done steps.
+					touch /tmp/rhel8-3-remediation.txt
+				fi
+
 				# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe
 				echo "# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe" >> $log
 
-				# Before remediation
+				# Check for rhe following output
+				r1111=$(/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}') 2>&1 | tee -a $log 
+				
+				if [[ $r1111 == "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/cramfs/cramfs.ko.xz" ]] 
+				then
+					echo "1.1.1.1 Remediation executed." 2>&1 | tee -a $log
 
-				# STDOUT
-				echo "Before remediation result:"
-				echo "Actual Value:"
-				echo "The command '/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}''"
-				echo "returned :"
-				echo "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/cramfs/cramfs.ko.xz"
+					# Remediation
+					echo "Create file, cramfs.conf, in /etc/modprobe.d/ " >> $log
+					touch /etc/modprobe.d/cramfs.conf
+					echo 'Insert CLI: "install cramfs /bin/true" in /etc/modprobe.d/cramfs.conf' >> $log
+					echo "install cramfs /bin/true" > /etc/modprobe.d/cramfs.conf
+					echo 'Change mod to 644 to file "/etc/modprobe.d/cramfs.conf"' >> $log
+					chmod 644 /etc/modprobe.d/cramfs.conf
+					echo 'Remove module "cramfs"' >> $log
+					# 2>&1 = output system error message, STDERR, to display, which is STDOUT.
+					# tee is write to file with [-a] option to append to file.
+					rmmod cramfs 2>&1 | tee -a $log
 
-				# Write to file
-				echo "Before remediation result:" >> $log
-				echo "Actual Value:" >> $log
-				echo "The command '/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}''" >> $log
-				echo "returned :" >> $log
-				echo "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/cramfs/cramfs.ko.xz" >> $log
-				echo "Below is command executed with the returned value" | tee -a $log
-				/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}' 2>&1 | tee -a $log
-				echo "End of execution" | tee -a $log
+					# After remediation
+					dr1111=$(/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}') | tee -a $log
 
-				# Remediation
-				echo "Create file, cramfs.conf, in /etc/modprobe.d/ " >> $log
-				touch /etc/modprobe.d/cramfs.conf
-				echo 'Insert CLI: "install cramfs /bin/true" in /etc/modprobe.d/cramfs.conf' >> $log
-				echo "install cramfs /bin/true" > /etc/modprobe.d/cramfs.conf
-				echo 'Change mod to 644 to file "/etc/modprobe.d/cramfs.conf"' >> $log
-				chmod 644 /etc/modprobe.d/cramfs.conf
-				echo 'Remove module "cramfs"' >> $log
-				# 2>&1 = output system error message, STDERR, to display, which is STDOUT.
-				# tee is write to file with [-a] option to append to file.
-				rmmod cramfs 2>&1 | tee -a $log
-
-				# After remediation
-				echo "After remediation" | tee -a $log
-				echo "Policy Value:" | tee -a $log
-				echo "cmd: /usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}'" | tee -a $log
-				echo "expect: install /bin/true" | tee -a $log
-				echo "system: Linux" | tee -a $log
+					if [[ $dr1111 == "install /bin/true" ]]
+					then
+						echo "Remediation applied." | tee -a $log
+					fi
+				fi
 			;;
 			[Nn]* )
 				echo "No"
