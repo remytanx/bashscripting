@@ -16,7 +16,7 @@ display_menu(){
 		read -p "Input Selection: " selection
 		case $selection in
 			[Yy]* )
-				echo "\nYes is chosen"
+				echo -e "\nYes is chosen"
 				# Create a log file for done steps.
 				touch /tmp/rhel8-3-remediation.txt
 				# Create and assign local environment variable
