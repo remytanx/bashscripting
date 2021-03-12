@@ -1,0 +1,20 @@
+#[InstallMedia]
+#name=Red Hat Enterprise Linux 8.3.0
+#mediaid=None
+#metadata_expire=-1
+#gpgcheck=0
+#cost=500
+
+[local-repo-in-iso-BaseOS-by-yum-repo-config-helper]
+name=Red Hat Enterprise Linux \$releasever - BaseOS - \$basearch (DVD)
+baseurl=file:///mnt/usb/BaseOS
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[local-repo-in-iso-AppStream-by-yum-repo-config-helper]
+name=Red Hat Enterprise Linux \$releasever - AppStream - \$basearch (DVD)
+baseurl=file:///mnt/usb/AppStream
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
