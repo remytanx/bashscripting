@@ -12,13 +12,16 @@
 
 
 echo -e "\nExecute command"
-echo "mount -o remount,noexec /var/tmp"
-mount -o remount,noexec /var/tmp
-dr1110=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
-echo '$dr1110: "'$dr1110'"'
-echo "mount | grep -E '\s/var/tmp\s' | grep -v noexec"
-mount | grep -E '\s/var/tmp\s' | grep -v noexec
+# echo "mount -o remount,noexec /var/tmp"
+# mount -o remount,noexec /var/tmp
+# dr1110=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+# echo '$dr1110: "'$dr1110'"'
+# echo "mount | grep -E '\s/var/tmp\s' | grep -v noexec"
+# mount | grep -E '\s/var/tmp\s' | grep -v noexec
+
+/usr/bin/mount | /usr/bin/grep 'on /var/tmp '
+
 echo -e "Command executed\n"
 
-tmpfs	/tmp	tmpfs	noexec	0	0
-/tmp	/var/tmp	none	rw,noexec,nosuid,nodev,bind	0	0
+# tmpfs	/tmp	tmpfs	noexec	0	0
+# /tmp	/var/tmp	none	rw,noexec,nosuid,nodev,bind	0	0
