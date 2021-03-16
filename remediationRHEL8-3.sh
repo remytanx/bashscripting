@@ -41,10 +41,10 @@ display_menu(){
 				echo -e "\n# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
-				r1111=$(/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
-				echo 'Set Variable: $r1111='$r1111 | tee -a $LOG
+				r1_1_1_1=$(/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
+				echo 'Set Variable: $r1.1.1.1='$r1_1_1_1 | tee -a $LOG
 				
-				if [[ $r1111 == "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/cramfs/cramfs.ko.xz " ]] 
+				if [[ $r1_1_1_1 == "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/cramfs/cramfs.ko.xz " ]] 
 				then
 					# echo "1.1.1.1 $REXEC" 2>&1 | tee -a $log
 					echo -e "1.1.1.1" $REXEC | tee -a $LOG
@@ -62,15 +62,15 @@ display_menu(){
 					rmmod cramfs $SC2
 
 					# After remediation
-					dr1111=$(/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
+					dr1_1_1_1=$(/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
 
-					if [[ $dr1111 == "install /bin/true " ]]
+					if [[ $dr1_1_1_1 == "install /bin/true " ]]
 					then
-						echo $EXPECTED $dr1111 | tee -a $LOG
+						echo $EXPECTED $dr1_1_1_1 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
 						echo "Remediation is not successful" | tee -a $LOG
-						echo 'Output: "'$dr1111'"' | tee -a $LOG
+						echo 'Output: "'$dr1_1_1_1'"' | tee -a $LOG
 					fi
 				fi
 
@@ -79,10 +79,10 @@ display_menu(){
 				echo -e "\n#1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
-				r1113=$(/sbin/modprobe -n -v squashfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
-				echo 'Set Variable: $r1113='$r1113 | tee -a $LOG
+				r1_1_1_3=$(/sbin/modprobe -n -v squashfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
+				echo 'Set Variable: $r1.1.1.3='$r1_1_1_3 | tee -a $LOG
 
-				if [[ $r1113 == "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/squashfs/squashfs.ko.xz " ]]
+				if [[ $r1_1_1_3 == "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/squashfs/squashfs.ko.xz " ]]
 				then
 					echo -e "1.1.1.3" $REXEC | tee -a $LOG
 
@@ -97,15 +97,15 @@ display_menu(){
 					rmmod squashfs $SC2
 
 					# After remediation
-					dr1113=$(/sbin/modprobe -n -v squashfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
+					dr1_1_1_3=$(/sbin/modprobe -n -v squashfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
 
-					if [[ $dr1113 == "install /bin/true " ]]
+					if [[ $dr1_1_1_3 == "install /bin/true " ]]
 					then
-						echo $EXPECTED $dr1113 | tee -a $LOG
+						echo $EXPECTED $dr1_1_1_3 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
 						echo "Remediation is not successful" | tee -a $LOG
-						echo 'Output: "'$dr1113'"' | tee -a $LOG
+						echo 'Output: "'$dr1_1_1_3'"' | tee -a $LOG
 					fi
 				fi
 
@@ -114,10 +114,10 @@ display_menu(){
 				echo -e "\n# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
-				r1114=$(/sbin/modprobe -n -v udf | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
-				echo 'Set Variable: $r1114='$r1114 | tee -a $LOG
+				r1_1_1_4=$(/sbin/modprobe -n -v udf | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
+				echo 'Set Variable: $r1.1.1.4='$r1_1_1_4 | tee -a $LOG
 				
-				if [[ $r1114 == "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/lib/crc-itu-t.ko.xz 
+				if [[ $r1_1_1_4 == "insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/lib/crc-itu-t.ko.xz 
 insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]] 
 				then
 					echo -e "1.1.1.4" $REXEC | tee -a $LOG
@@ -135,15 +135,15 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 					rmmod udf $SC2
 
 					# After remediation
-					dr1114=$(/usr/sbin/modprobe -n -v udf | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
+					dr1_1_1_4=$(/usr/sbin/modprobe -n -v udf | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
 					
-					if [[ $dr1114 == "install /bin/true " ]]
+					if [[ $dr1_1_1_4 == "install /bin/true " ]]
 					then
-						echo $EXPECTED $dr1114 | tee -a $LOG
+						echo $EXPECTED $dr1_1_1_4 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
 						echo "Remediation is not successful" | tee -a $LOG
-						echo 'Output: "'$dr1114'"' | tee -a $LOG
+						echo 'Output: "'$dr1_1_1_4'"' | tee -a $LOG
 					fi
 				fi
 
@@ -152,44 +152,118 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 				echo -e "\n# 1.1.10 Ensure noexec option set on /var/tmp partition : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
-				r1110=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
-				echo 'Set Variable: $r1110='$r1110 | tee -a $LOG
+				r1_1_10=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+				echo 'Set Variable: $r1.1.10='$r1_1_10 | tee -a $LOG
 				
-				if [[ $r1110 == "" ]] 
+				if [[ $r1_1_10 == "" ]] 
 				then
 					echo -e "1.1.10" $REXEC | tee -a $LOG
 
 					# Remediation
 					echo "Backup original file" | tee -a $LOG
-					cp /etc/fstab /etc/fstab.original | tee -a $LOG
+
+					if [[ ! -f "/etc/fstab.original" ]]
+					then
+						echo "Copy /etc/fstab to /etc/fstab.original" | tee -a $LOG
+						echo "yes | cp /etc/fstab /etc/fstab.original" | tee -a $LOG
+						yes | cp /etc/fstab /etc/fstab.original | tee -a $LOG
+					else
+						echo "/etc/fstab.original EXIST.." | tee -a $LOG
+					fi
+
+					if [[ ! -f "/etc/fstab.backup" ]]
+					then
+						echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
+						yes | cp /etc/fstab /etc/fstab.backup | tee -a $LOG
+					else
+						echo "/etc/fstab.backup EXIST.." | tee -a $LOG
+						echo "Append difference into /etc/fstab.backup" | tee -a $LOG
+						diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
+					fi
+
 					echo "Edit file, fstab, in /etc " | tee -a $LOG
 					echo -e 'Insert CLI: "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" in /etc/fstab' | tee -a $LOG
 					echo -e 'Insert CLI: "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" in /etc/fstab' | tee -a $LOG
 					echo -e "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" >> /etc/fstab
 					echo -e "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" >> /etc/fstab
-					echo -e "mount -o remount,noexec /var/tmp" | tee -a $LOG
-					
+					echo "Mount /var/tmp and /tmp without rebooting system" | tee -a $LOG
+					echo -e "mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
+					mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/
+					echo -e "mount -o remount,noexec,nosuid,nodev /tmp" | tee -a $LOG
+					mount -o remount,noexec,nosuid,nodev /tmp
+
 					# After remediation
-					dr1110=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+					dr1_1_10=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
 					
-					if [[ $dr1110 == "[\s]*[,]?noexec " ]]
+					if [[ $dr1_1_10 == "[\s]*[,]?noexec " ]]
 					then
-						echo $EXPECTED $dr1110 | tee -a $LOG
+						echo $EXPECTED $dr1_1_10 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
 						echo "Remediation is not successful" | tee -a $LOG
-						echo 'Output: "'$dr1110'"' | tee -a $LOG
+						echo 'Output: "'$dr1_1_10'"' | tee -a $LOG
 					fi
 				fi
 
 
+				# 1.1.17 Ensure noexec option set on /dev/shm partition : [FAILED]
+				echo -e "\n# 1.1.17 Ensure noexec option set on /dev/shm partition : [FAILED]" | tee -a $LOG
+
+				# Check for the following output
+				r1_1_17=$(/bin/mount | /bin/grep 'on /dev/shm ')
+				echo 'Set Variable: $r1.1.17='$r1_1_17 | tee -a $LOG
+				
+				if [[ $r1_1_17 == "tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,seclabel)" ]] 
+				then
+					echo -e "1.1.17" $REXEC | tee -a $LOG
+
+					# Remediation
+					echo "Backup original file" | tee -a $LOG
+
+					if [[ ! -f "/etc/fstab.original" ]]
+					then
+						echo "Copy /etc/fstab to /etc/fstab.original" | tee -a $LOG
+						echo "yes | cp /etc/fstab /etc/fstab.original" | tee -a $LOG
+						yes | cp /etc/fstab /etc/fstab.original | tee -a $LOG
+					else
+						echo "/etc/fstab.original EXIST.." | tee -a $LOG
+					fi
+
+					if [[ ! -f "/etc/fstab.backup" ]]
+					then
+						echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
+						yes | cp /etc/fstab /etc/fstab.backup | tee -a $LOG
+					else
+						echo "/etc/fstab.backup EXIST.." | tee -a $LOG
+						echo "Append difference into /etc/fstab.backup" | tee -a $LOG
+						diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
+					fi
+
+					echo "Edit file, fstab, in /etc " | tee -a $LOG					
+					echo -e 'Insert CLI: "tmpfs\t/dev/shm\ttmpfs\tdefaults,nodev,nosuid,noexec\t0\t0" in /etc/fstab' | tee -a $LOG
+					echo -e "tmpfs\t/dev/shm\ttmpfs\tdefaults,nodev,nosuid,noexec\t0\t0" >> /etc/fstab
+					echo "mount -o remount,noexec /dev/shm" | tee -a $LOG
+					mount -o remount,noexec /dev/shm
+					
+					# After remediation
+					dr1_1_17=$(/bin/mount | /bin/grep 'on /dev/shm ')
+					
+					if [[ $dr1_1_17 == "[\s]*[,]?noexec " ]]
+					then
+						echo $EXPECTED $dr1_1_17 | tee -a $LOG
+						echo $RAPP | tee -a $LOG
+					else
+						echo "Remediation is not successful" | tee -a $LOG
+						echo 'Output: "'$dr1_1_17'"' | tee -a $LOG
+					fi
+				fi
 			;;
 			[Nn]* )
 				echo -e "\nNo is chosen. No action will be taken.\n"
 			;;
 			[Qq]* )
 				echo -e "\nQuitting Script..."
-				flag=false
+				FLAG=false
 				# exit ;;
 		esac
 	done
