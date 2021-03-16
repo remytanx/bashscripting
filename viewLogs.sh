@@ -13,3 +13,11 @@ echo "List Files in Directories"
 ls -lat /tmp | rhel
 ls -lat /etc/modprobe.d
 ls -lat /etc | grep fstab
+
+echo "\nList FAILED\n"
+if [[ -f "/tmp/rhel8-3-remediation.txt" ]]
+then
+    cat /tmp/rhel8-3-remediation.txt | grep "NOT SUCCESSFUL"
+else
+    echo -e "File Does Not EXIST..\n"
+fi

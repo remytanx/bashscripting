@@ -9,6 +9,9 @@ EXPECTED='expect: '
 # sc1=$(tee -a $LOG)
 SC2=$(2>&1 | tee -a $LOG)
 FLAG=true
+declare -A FAILED
+FAILED=()
+counter=0
 
 echo "Hello World!"
 display_menu(){
@@ -69,7 +72,11 @@ display_menu(){
 						echo $EXPECTED $dr1_1_1_1 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
-						echo "Remediation is not successful" | tee -a $LOG
+						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.1\n" | tee -a $LOG
+						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.1\n")
+						echo -e '\n$counter: '$counter"\n"
+						echo -e "${FAILED[0]}"
+						((counter++))
 						echo 'Output: "'$dr1_1_1_1'"' | tee -a $LOG
 					fi
 				fi
@@ -104,7 +111,11 @@ display_menu(){
 						echo $EXPECTED $dr1_1_1_3 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
-						echo "Remediation is not successful" | tee -a $LOG
+						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.3\n" | tee -a $LOG
+						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.3\n")
+						echo -e '\n$counter: '$counter"\n"
+						echo -e "${FAILED[1]}"
+						((counter++))
 						echo 'Output: "'$dr1_1_1_3'"' | tee -a $LOG
 					fi
 				fi
@@ -142,7 +153,11 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 						echo $EXPECTED $dr1_1_1_4 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
-						echo "Remediation is not successful" | tee -a $LOG
+						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL for # 1.1.1.4\n" | tee -a $LOG
+						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL for # 1.1.1.4\n")
+						echo -e '\n$counter: '$counter"\n"
+						echo -e "${FAILED[2]}"
+						((counter++))
 						echo 'Output: "'$dr1_1_1_4'"' | tee -a $LOG
 					fi
 				fi
@@ -200,7 +215,11 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 						echo $EXPECTED $dr1_1_10 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
-						echo "Remediation is not successful" | tee -a $LOG
+						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.10\n" | tee -a $LOG
+						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.10\n")
+						echo -e '\n$counter: '$counter"\n"
+						echo -e "${FAILED[3]}"
+						((counter++))
 						echo 'Output: "'$dr1_1_10'"' | tee -a $LOG
 					fi
 				fi
@@ -253,10 +272,28 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 						echo $EXPECTED $dr1_1_17 | tee -a $LOG
 						echo $RAPP | tee -a $LOG
 					else
-						echo "Remediation is not successful" | tee -a $LOG
+						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.17\n" | tee -a $LOG
+						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.17\n")
+						echo -e '\n$counter: '$counter"\n"
+						echo -e "${FAILED[4]}"
+						((counter++))
 						echo 'Output: "'$dr1_1_17'"' | tee -a $LOG
 					fi
 				fi
+
+
+			# 1.1.2 Ensure /tmp is configured - mount : [FAILED]
+
+			echo -e "\nList FAILED"
+			echo -e "FUCK: ${FAILED[*]}"
+			echo -e "${FAILED[0]}"
+			echo -e "${FAILED[1]}"
+			echo -e "${FAILED[2]}"
+			echo -e "${FAILED[3]}"
+			echo -e '\n$counter: '$counter"\n"
+			# ((counter++))
+			# echo -e '\n$counter: '$counter"\n"
+			echo "End Of Remediation.."
 			;;
 			[Nn]* )
 				echo -e "\nNo is chosen. No action will be taken.\n"
