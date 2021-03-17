@@ -11,17 +11,17 @@
 # echo -e "Command executed\n"
 
 
-echo -e "\nExecute command\n"
-echo "mount -o remount,noexec /var/tmp"
-mount -o remount,noexec /var/tmp
-dr1110=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
-echo '$dr1110: "'$dr1110'"'
-echo "mount | grep -E '\s/var/tmp\s' | grep -v noexec"
-mount | grep -E '\s/var/tmp\s' | grep -v noexec
+# echo -e "\nExecute command\n"
+# echo "mount -o remount,noexec /var/tmp"
+# mount -o remount,noexec /var/tmp
+# dr1110=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+# echo '$dr1110: "'$dr1110'"'
+# echo "mount | grep -E '\s/var/tmp\s' | grep -v noexec"
+# mount | grep -E '\s/var/tmp\s' | grep -v noexec
 
-/usr/bin/mount | /usr/bin/grep 'on /var/tmp '
+# /usr/bin/mount | /usr/bin/grep 'on /var/tmp '
 
-echo -e "\nCommand executed\n"
+# echo -e "\nCommand executed\n"
 
 # tmpfs	/tmp	tmpfs	noexec	0	0
 # /tmp	/var/tmp	none	rw,noexec,nosuid,nodev,bind	0	0
@@ -58,8 +58,33 @@ echo -e "\nCommand executed\n"
 # echo -e "\nCommand executed\n"
 
 
+# echo -e "\nExecute command\n"
+
+# /bin/mount | /bin/grep 'on /dev/shm '
+
+# echo -e "\nCommand executed\n"
+
+
+# my_array=("Command executed")
+# my_array+=("Execute command")
+# echo "${my_array[@]}"
+
+
+# echo -e "\nExecute command\n"
+
+# /usr/bin/mount | /bin/grep /tmp
+
+# echo -e "\nCommand executed\n"
+
+# sed -i 's/foo/bar/g' hello.txt
+
+
 echo -e "\nExecute command\n"
 
-/bin/mount | /bin/grep 'on /dev/shm '
+while read -r line
+do
+    line=${line##*/}
+    echo "${line%\"}"
+done < "hello.txt"
 
 echo -e "\nCommand executed\n"

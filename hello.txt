@@ -1,0 +1,4 @@
+The is a test file created by nixCrft for demo purpose.
+foo is good.
+Foo is nice.
+I love FOO.

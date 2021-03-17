@@ -9,8 +9,8 @@ EXPECTED='expect: '
 # sc1=$(tee -a $LOG)
 SC2=$(2>&1 | tee -a $LOG)
 FLAG=true
-declare -A FAILED
-FAILED=()
+declare -A my_array
+my_array=()
 counter=0
 
 echo "Hello World!"
@@ -21,7 +21,7 @@ display_menu(){
 		echo "Best effort Remediation for RHEL 8.3"
 		echo "======================================="
 		echo "WARNING: ONLY RUN THIS SCRIPT AFTER PERFORMED THE hardeningRhel7.sh"
-		echo "LEGEND: # - MANUAL REMEDIATION ## - FAILED"
+		echo "LEGEND: # - MANUAL REMEDIATION ## - my_array"
 		echo "DO YOU WANT TO CONTINUE??"
 		echo "(Y) Yes"
 		echo "(N) No"
@@ -39,9 +39,9 @@ display_menu(){
 					touch /tmp/rhel8-3-remediation.txt
 				fi
 
-
-				# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [FAILED]
-				echo -e "\n# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
+				###################################################################################
+				# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [my_array]
+				echo -e "\n# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [my_array]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_1_1=$(/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
@@ -73,17 +73,19 @@ display_menu(){
 						echo $RAPP | tee -a $LOG
 					else
 						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.1\n" | tee -a $LOG
-						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.1\n")
-						echo -e '\n$counter: '$counter"\n"
-						echo -e "${FAILED[0]}"
-						((counter++))
+						my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.1")
+						# echo -e '\n$counter: '$counter"\n"
+						# echo -e "${my_array[0]}"
+						# ((counter++))
 						echo 'Output: "'$dr1_1_1_1'"' | tee -a $LOG
 					fi
 				fi
+				###################################################################################
 
 
-				# 1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [FAILED]
-				echo -e "\n#1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
+				####################################################################################
+				# 1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [my_array]
+				echo -e "\n#1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [my_array]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_1_3=$(/sbin/modprobe -n -v squashfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
@@ -112,17 +114,19 @@ display_menu(){
 						echo $RAPP | tee -a $LOG
 					else
 						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.3\n" | tee -a $LOG
-						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.3\n")
-						echo -e '\n$counter: '$counter"\n"
-						echo -e "${FAILED[1]}"
-						((counter++))
+						my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.1.3")
+						# echo -e '\n$counter: '$counter"\n"
+						# echo -e "${my_array[1]}"
+						# ((counter++))
 						echo 'Output: "'$dr1_1_1_3'"' | tee -a $LOG
 					fi
 				fi
+				####################################################################################
 
 
-				# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [FAILED]
-				echo -e "\n# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
+				################################################################################
+				# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [my_array]
+				echo -e "\n# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [my_array]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_1_4=$(/sbin/modprobe -n -v udf | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
@@ -154,17 +158,19 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 						echo $RAPP | tee -a $LOG
 					else
 						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL for # 1.1.1.4\n" | tee -a $LOG
-						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL for # 1.1.1.4\n")
-						echo -e '\n$counter: '$counter"\n"
-						echo -e "${FAILED[2]}"
-						((counter++))
+						my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL for # 1.1.1.4")
+						# echo -e '\n$counter: '$counter"\n"
+						# echo -e "${my_array[2]}"
+						# ((counter++))
 						echo 'Output: "'$dr1_1_1_4'"' | tee -a $LOG
 					fi
 				fi
+				################################################################################
 
 
-				# 1.1.10 Ensure noexec option set on /var/tmp partition : [FAILED]
-				echo -e "\n# 1.1.10 Ensure noexec option set on /var/tmp partition : [FAILED]" | tee -a $LOG
+				####################################################################
+				# 1.1.10 Ensure noexec option set on /var/tmp partition : [my_array]
+				echo -e "\n# 1.1.10 Ensure noexec option set on /var/tmp partition : [my_array]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_10=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
@@ -216,17 +222,19 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 						echo $RAPP | tee -a $LOG
 					else
 						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.10\n" | tee -a $LOG
-						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.10\n")
-						echo -e '\n$counter: '$counter"\n"
-						echo -e "${FAILED[3]}"
-						((counter++))
+						my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.10")
+						# echo -e '\n$counter: '$counter"\n"
+						# echo -e "${my_array[3]}"
+						# ((counter++))
 						echo 'Output: "'$dr1_1_10'"' | tee -a $LOG
 					fi
 				fi
+				####################################################################
 
 
-				# 1.1.17 Ensure noexec option set on /dev/shm partition : [FAILED]
-				echo -e "\n# 1.1.17 Ensure noexec option set on /dev/shm partition : [FAILED]" | tee -a $LOG
+				####################################################################
+				# 1.1.17 Ensure noexec option set on /dev/shm partition : [my_array]
+				echo -e "\n# 1.1.17 Ensure noexec option set on /dev/shm partition : [my_array]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_17=$(/bin/mount | /bin/grep 'on /dev/shm ')
@@ -273,27 +281,93 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 						echo $RAPP | tee -a $LOG
 					else
 						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.17\n" | tee -a $LOG
-						FAILED+=([counter]="\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.17\n")
-						echo -e '\n$counter: '$counter"\n"
-						echo -e "${FAILED[4]}"
-						((counter++))
+						my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.17")
+						# echo -e '\n$counter: '$counter"\n"
+						# echo -e "${my_array[4]}"
+						# ((counter++))
 						echo 'Output: "'$dr1_1_17'"' | tee -a $LOG
 					fi
 				fi
+				####################################################################
 
 
-			# 1.1.2 Ensure /tmp is configured - mount : [FAILED]
+				######################################################
+				# 1.1.2 Ensure /tmp is configured - mount : [my_array]
+				echo -e "\n# 1.1.2 Ensure /tmp is configured - mount : [my_array]" | tee -a $LOG
 
-			echo -e "\nList FAILED"
-			echo -e "FUCK: ${FAILED[*]}"
-			echo -e "${FAILED[0]}"
-			echo -e "${FAILED[1]}"
-			echo -e "${FAILED[2]}"
-			echo -e "${FAILED[3]}"
-			echo -e '\n$counter: '$counter"\n"
+				# Check for the following output
+				r1_1_2=$(/usr/bin/mount | /usr/bin/grep /tmp )
+				echo 'Set Variable: $r1.1.2='$r1_1_2 | tee -a $LOG
+				
+				if [[ $r1_1_2 == "" ]] 
+				then
+					echo -e "1.1.2" $REXEC | tee -a $LOG
+
+					# Remediation
+					echo "Backup original file" | tee -a $LOG
+
+					if [[ ! -f "/etc/fstab.original" ]]
+					then
+						echo "Copy /etc/fstab to /etc/fstab.original" | tee -a $LOG
+						echo "yes | cp /etc/fstab /etc/fstab.original" | tee -a $LOG
+						yes | cp /etc/fstab /etc/fstab.original | tee -a $LOG
+					else
+						echo "/etc/fstab.original EXIST.." | tee -a $LOG
+					fi
+
+					if [[ ! -f "/etc/fstab.backup" ]]
+					then
+						echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
+						yes | cp /etc/fstab /etc/fstab.backup | tee -a $LOG
+					else
+						echo "/etc/fstab.backup EXIST.." | tee -a $LOG
+						echo "Append difference into /etc/fstab.backup" | tee -a $LOG
+						diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
+					fi
+
+tmpfs	/tmp	tmpfs     defaults,rw,nosuid,nodev,noexec,relatime  0 0
+
+					echo "Edit file, fstab, in /etc " | tee -a $LOG
+					echo -e 'Insert CLI: "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" in /etc/fstab' | tee -a $LOG
+					echo -e 'Insert CLI: "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" in /etc/fstab' | tee -a $LOG
+					echo -e "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" >> /etc/fstab
+					echo -e "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" >> /etc/fstab
+					echo "Mount /var/tmp and /tmp without rebooting system" | tee -a $LOG
+					echo -e "mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
+					mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/
+					echo -e "mount -o remount,noexec,nosuid,nodev /tmp" | tee -a $LOG
+					mount -o remount,noexec,nosuid,nodev /tmp
+
+					# After remediation
+					dr1_1_2=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+					
+					if [[ $dr1_1_2 == "[\s]*[,]?noexec " ]]
+					then
+						echo $EXPECTED $dr1_1_2 | tee -a $LOG
+						echo $RAPP | tee -a $LOG
+					else
+						echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.2\n" | tee -a $LOG
+						my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.2")
+						# echo -e '\n$counter: '$counter"\n"
+						# echo -e "${my_array[3]}"
+						# ((counter++))
+						echo 'Output: "'$dr1_1_2'"' | tee -a $LOG
+					fi
+				fi
+				######################################################
+
+
+			echo -e "\nList FAILED (my_array)\n"
+			for i in "${my_array[@]}"; do echo "$i"; done
+			# echo "${my_array[@]}"
+			# echo "${my_array[0]}"
+			# echo "${my_array[1]}"
+			# echo "${my_array[2]}"
+			# echo "${my_array[3]}"
+			# echo -e '\n$counter: '$counter"\n"
 			# ((counter++))
 			# echo -e '\n$counter: '$counter"\n"
-			echo "End Of Remediation.."
+			echo -e "\nEnd Of Remediation..\n"
 			;;
 			[Nn]* )
 				echo -e "\nNo is chosen. No action will be taken.\n"
