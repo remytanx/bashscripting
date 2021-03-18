@@ -10,7 +10,7 @@ EXPECTED='expect: '
 SC2=$(2>&1 | tee -a $LOG)
 FLAG=true
 unset my_array
-declare -A my_array
+# declare -A my_array
 my_array=()
 # counter=0
 FILE_FSTAB='/etc/fstab'
