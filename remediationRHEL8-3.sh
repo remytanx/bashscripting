@@ -9,9 +9,11 @@ EXPECTED='expect: '
 # sc1=$(tee -a $LOG)
 SC2=$(2>&1 | tee -a $LOG)
 FLAG=true
+unset my_array
 declare -A my_array
 my_array=()
-counter=0
+# counter=0
+FILE_FSTAB='/etc/fstab'
 
 echo "Hello World!"
 display_menu(){
@@ -40,8 +42,8 @@ display_menu(){
 				fi
 
 				###################################################################################
-				# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [my_array]
-				echo -e "\n# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [my_array]" | tee -a $LOG
+				# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [FAILED]
+				echo -e "\n# 1.1.1.1 Ensure mounting of cramfs filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_1_1=$(/usr/sbin/modprobe -n -v cramfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
@@ -84,8 +86,8 @@ display_menu(){
 
 
 				####################################################################################
-				# 1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [my_array]
-				echo -e "\n#1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [my_array]" | tee -a $LOG
+				# 1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [FAILED]
+				echo -e "\n#1.1.1.3 Ensure mounting of squashfs filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_1_3=$(/sbin/modprobe -n -v squashfs | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
@@ -125,8 +127,8 @@ display_menu(){
 
 
 				################################################################################
-				# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [my_array]
-				echo -e "\n# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [my_array]" | tee -a $LOG
+				# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [FAILED]
+				echo -e "\n# 1.1.1.4 Ensure mounting of udf filesystems is disabled - modprobe : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_1_4=$(/sbin/modprobe -n -v udf | /usr/bin/awk '{print} END {if (NR == 0) print ""fail""}')
@@ -169,8 +171,8 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 
 
 				####################################################################
-				# 1.1.10 Ensure noexec option set on /var/tmp partition : [my_array]
-				echo -e "\n# 1.1.10 Ensure noexec option set on /var/tmp partition : [my_array]" | tee -a $LOG
+				# 1.1.10 Ensure noexec option set on /var/tmp partition : [FAILED]
+				echo -e "\n# 1.1.10 Ensure noexec option set on /var/tmp partition : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_10=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
@@ -205,8 +207,8 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 					echo "Edit file, fstab, in /etc " | tee -a $LOG
 					echo -e 'Insert CLI: "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" in /etc/fstab' | tee -a $LOG
 					echo -e 'Insert CLI: "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" in /etc/fstab' | tee -a $LOG
-					echo -e "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" >> /etc/fstab
-					echo -e "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" >> /etc/fstab
+					echo -e "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" >> $FILE_FSTAB
+					echo -e "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" >> $FILE_FSTAB
 					echo "Mount /var/tmp and /tmp without rebooting system" | tee -a $LOG
 					echo -e "mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
 					mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/
@@ -233,8 +235,8 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 
 
 				####################################################################
-				# 1.1.17 Ensure noexec option set on /dev/shm partition : [my_array]
-				echo -e "\n# 1.1.17 Ensure noexec option set on /dev/shm partition : [my_array]" | tee -a $LOG
+				# 1.1.17 Ensure noexec option set on /dev/shm partition : [FAILED]
+				echo -e "\n# 1.1.17 Ensure noexec option set on /dev/shm partition : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_17=$(/bin/mount | /bin/grep 'on /dev/shm ')
@@ -268,7 +270,7 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 
 					echo "Edit file, fstab, in /etc " | tee -a $LOG					
 					echo -e 'Insert CLI: "tmpfs\t/dev/shm\ttmpfs\tdefaults,nodev,nosuid,noexec\t0\t0" in /etc/fstab' | tee -a $LOG
-					echo -e "tmpfs\t/dev/shm\ttmpfs\tdefaults,nodev,nosuid,noexec\t0\t0" >> /etc/fstab
+					echo -e "tmpfs\t/dev/shm\ttmpfs\tdefaults,nodev,nosuid,noexec\t0\t0" >> $FILE_FSTAB
 					echo "mount -o remount,noexec /dev/shm" | tee -a $LOG
 					mount -o remount,noexec /dev/shm
 					
@@ -292,8 +294,8 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 
 
 				######################################################
-				# 1.1.2 Ensure /tmp is configured - mount : [my_array]
-				echo -e "\n# 1.1.2 Ensure /tmp is configured - mount : [my_array]" | tee -a $LOG
+				# 1.1.2 Ensure /tmp is configured - mount : [FAILED]
+				echo -e "\n# 1.1.2 Ensure /tmp is configured - mount : [FAILED]" | tee -a $LOG
 
 				# Check for the following output
 				r1_1_2=$(/usr/bin/mount | /usr/bin/grep /tmp )
@@ -325,13 +327,20 @@ insmod /lib/modules/4.18.0-240.el8.x86_64/kernel/fs/udf/udf.ko.xz " ]]
 						diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
 					fi
 
-tmpfs	/tmp	tmpfs     defaults,rw,nosuid,nodev,noexec,relatime  0 0
+					echo "Check if there is an existing /tmp mounted to tmpfs.." | tee -a $LOG
+					sed -i "s/tmpfs\t\/tmp\ttmpfs/tmpfs\t\/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0/w changelog.txt" "$FILE_FSTAB"
+					if [ -s changelog.txt ]; then
+						echo 'Yes! There is. Existing string replaced by "tmpfs	/tmp	tmpfs     defaults,rw,nosuid,nodev,noexec,relatime  0 0"' | tee -a $LOG
+					else
+						echo "No changes is made. Please verify with existing file to confirm detail."
+					fi
 
-					echo "Edit file, fstab, in /etc " | tee -a $LOG
-					echo -e 'Insert CLI: "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" in /etc/fstab' | tee -a $LOG
-					echo -e 'Insert CLI: "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" in /etc/fstab' | tee -a $LOG
-					echo -e "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" >> /etc/fstab
-					echo -e "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" >> /etc/fstab
+					# echo "Edit file, fstab, in /etc " | tee -a $LOG
+					# echo -e 'Insert CLI: "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" in /etc/fstab' | tee -a $LOG
+					# echo -e 'Insert CLI: "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" in /etc/fstab' | tee -a $LOG
+					# echo -e "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" >> $FILE_FSTAB
+					# echo -e "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" >> $FILE_FSTAB
+
 					echo "Mount /var/tmp and /tmp without rebooting system" | tee -a $LOG
 					echo -e "mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
 					mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/
@@ -339,9 +348,9 @@ tmpfs	/tmp	tmpfs     defaults,rw,nosuid,nodev,noexec,relatime  0 0
 					mount -o remount,noexec,nosuid,nodev /tmp
 
 					# After remediation
-					dr1_1_2=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+					dr1_1_2=$(/usr/bin/mount | /usr/bin/grep /tmp )
 					
-					if [[ $dr1_1_2 == "[\s]*[,]?noexec " ]]
+					if [[ $dr1_1_2 == ".*on[\s]+/tmp[\s]+type.*" ]]
 					then
 						echo $EXPECTED $dr1_1_2 | tee -a $LOG
 						echo $RAPP | tee -a $LOG

@@ -1,7 +1,8 @@
 #!/bin/bash
 
-declare -A my_my_array
-my_my_array=()
+unset my_arr
+declare -A my_arr
+my_arr=()
 
 
 echo -e "\nExecution\n"
@@ -25,6 +26,8 @@ umount /var/tmp
 echo "mount -o remount,exec /dev/shm"
 mount -o remount,exec /dev/shm
 
+
+
 echo -e "\nSet all variables back to <empty>"
 my_arr+=("r1_1_1_1=")
 my_arr+=("dr1_1_1_1=")
@@ -37,24 +40,6 @@ my_arr+=("dr1_1_10=")
 my_arr+=("r1_1_17=")
 my_arr+=("r1_1_2=")
 my_arr+=("dr1_1_2=")
-
-# echo -e 
-# '
-# r1_1_1_1=""
-# \ndr1_1_1_1=""
-# \nr1_1_1_3=""
-# \ndr1_1_1_3=""
-# \nr1_1_1_4=""
-# \ndr1_1_1_4=""
-# \nr1_1_10=""
-# \ndr1_1_10=""
-# \nr1_1_17=""
-# \nr1_1_2=""
-# \ndr1_1_2=""
-
-# '
-# my_arr["r1_1_1_1"]="= \"\""
-# my_arr+=( ["dr1_1_1_1"]="= \"\"" ["r1_1_1_3"]="= \"\"")
 
 for key in ${!my_arr[@]}; do
     echo ${key} ${my_arr[${key}]}
