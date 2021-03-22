@@ -26,7 +26,9 @@ umount /var/tmp
 echo "mount -o remount,exec /dev/shm"
 mount -o remount,exec /dev/shm
 echo "mount -o remount,exec /tmp"
-mount -o remount,exec /tmp
+# mount -o remount,exec /tmp
+umount /tmp
+umount /dev/shm
 echo "Verify mount points"
 /usr/bin/mount | /usr/bin/grep 'on /var/tmp '
 /bin/mount | /bin/grep 'on /dev/shm '
@@ -43,6 +45,16 @@ unset dr1_1_10
 unset r1_1_17
 unset r1_1_2
 unset dr1_1_2
+
+unset LOG
+unset REXEC
+unset RAPP
+unset EXPECTED
+# unset SC2
+unset FLAG
+unset my_array
+unset TMPMOUNTTG
+
 
 echo -e "\nSet all variables back to <empty>"
 # my_arr+=("r1_1_1_1=")

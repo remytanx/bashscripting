@@ -50,23 +50,24 @@
 # echo -e "\nCommand executed\n"
 
 
+echo -e "\nExecute command\n"
+/bin/mount | /bin/grep 'on /dev/shm '
+echo -e "\nCommand executed\n"
+
+
+### NEED TO unset array after use ###
 # echo -e "\nExecute command\n"
-# /bin/mount | /bin/grep 'on /dev/shm '
+# my_array=("Command executed")     # This array declaration works
+# my_array=(Command executed)     # This array declaration works
+# my_array+=("Execute command")
+# my_array+=(Execute command)
+# echo "${my_array[@]}"
 # echo -e "\nCommand executed\n"
 
 
 echo -e "\nExecute command\n"
-# my_array=("Command executed")     # This array declaration works
-my_array=(Command executed)     # This array declaration works
-# my_array+=("Execute command")
-my_array+=(Execute command)
-echo "${my_array[@]}"
+/usr/bin/mount | /bin/grep /tmp     # This returns empty string
 echo -e "\nCommand executed\n"
-
-
-# echo -e "\nExecute command\n"
-# /usr/bin/mount | /bin/grep /tmp     # This returns empty string
-# echo -e "\nCommand executed\n"
 
 
 # echo -e "\nExecute command\n"
@@ -112,4 +113,33 @@ echo -e "\nCommand executed\n"
 #     echo "# NO CHANGES MADE, DO SOME OTHER STUFF HERE"
 # fi
 # cat fstab
+# echo -e "\nCommand executed\n"
+
+
+# echo -e "\nExecute command\n"
+
+# # cat /etc/fstab.backup
+
+# sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+# sed -i 's/^< //' /etc/fstab.backup
+
+# echo -e "\nCommand executed\n"
+
+
+# echo -e "\nExecute command\n"
+# filename="rhel8-3-remediation.txt.log"
+# # touch changelog.txt
+
+# systemctl enable tmp.mount 2>&1 | tee -a $filename
+
+# FOUND=$(cat $filename | grep "Failed to enable unit: Unit /run/systemd/generator/tmp.mount is transient or generated.")
+
+# echo $FOUND
+# if [[ $FOUND != "" ]]
+# then
+#     echo "FOUND!"
+# else
+#     echo "NOT FOUND!"
+# fi
+
 # echo -e "\nCommand executed\n"

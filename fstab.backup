@@ -12,5 +12,6 @@
 /dev/mapper/rhel-root   /                       xfs     defaults        0 0
 UUID=a9339dc9-2e90-4f3c-9106-31dd4f33afd1 /boot                   xfs     defaults        0 0
 /dev/mapper/rhel-swap   none                    swap    defaults        0 0
-tmpfs	/tmp	tmpfs	defaults,rw,nosuid,nodev,noexec,relatime	0	0	noexec	0	0
-/tmp	/var/tmp	none	rw,noexec,nosuid,nodev,bind	0	0
+15,16d14
+< tmpfs	/tmp	tmpfs	noexec	0	0
+< /tmp	/var/tmp	none	rw,noexec,nosuid,nodev,bind	0	0
