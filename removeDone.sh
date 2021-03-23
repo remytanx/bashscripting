@@ -10,17 +10,23 @@ echo -e "\nExecution\n"
 
 echo "Execute: rm -rf /tmp/rhel8-3-remediation.txt"
 rm -rf /tmp/rhel8-3-remediation.txt
+
 echo "Execute: rm -rf /etc/modprobe.d/cramfs.conf"
 rm -rf /etc/modprobe.d/cramfs.conf
 echo "Execute: rm -rf /etc/modprobe.d/squashfs.conf"
 rm -rf /etc/modprobe.d/squashfs.conf
 echo "Execute: rm -rf /etc/modprobe.d/udf.conf"
 rm -rf /etc/modprobe.d/udf.conf
-echo "Execute: yes | cp /etc/fstab.original /etc/fstab"
+
+echo -e "\nExecute: yes | cp /etc/fstab.original /etc/fstab"
 yes | cp /etc/fstab.original /etc/fstab
 echo "Execute: rm -rf /etc/fstab.*"
 rm -rf /etc/fstab.*
-echo "Mount and Remount"
+echo "Update systemd.." | tee -a $LOG
+echo "systemctl daemon-reload" | tee -a $LOG
+systemctl daemon-reload
+
+echo -e "\nMount and Remount"
 echo "umount /var/tmp"
 umount /var/tmp
 echo "mount -o remount,exec /dev/shm"
@@ -28,8 +34,15 @@ mount -o remount,exec /dev/shm
 echo "mount -o remount,exec /tmp"
 # mount -o remount,exec /tmp
 umount /tmp
-umount /dev/shm
-echo "Verify mount points"
+# umount /dev/shm
+umount -l /dev/shm
+
+echo -e "\nDisable tmp.mount"
+systemctl disable tmp.mount
+echo "Remove folder /etc/systemd/system/local-fs.target.wants/ "
+rm -rf /etc/systemd/system/local-fs.target.wants/
+
+echo -e "\nVerify mount points"
 /usr/bin/mount | /usr/bin/grep 'on /var/tmp '
 /bin/mount | /bin/grep 'on /dev/shm '
 /usr/bin/mount | /usr/bin/grep /tmp 
@@ -45,6 +58,8 @@ unset dr1_1_10
 unset r1_1_17
 unset r1_1_2
 unset dr1_1_2
+unset r1_1_3
+unset dr1_1_3
 
 unset LOG
 unset REXEC

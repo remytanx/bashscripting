@@ -50,9 +50,9 @@
 # echo -e "\nCommand executed\n"
 
 
-echo -e "\nExecute command\n"
-/bin/mount | /bin/grep 'on /dev/shm '
-echo -e "\nCommand executed\n"
+# echo -e "\nExecute command\n"
+# /bin/mount | /bin/grep 'on /dev/shm '
+# echo -e "\nCommand executed\n"
 
 
 ### NEED TO unset array after use ###
@@ -65,9 +65,9 @@ echo -e "\nCommand executed\n"
 # echo -e "\nCommand executed\n"
 
 
-echo -e "\nExecute command\n"
-/usr/bin/mount | /bin/grep /tmp     # This returns empty string
-echo -e "\nCommand executed\n"
+# echo -e "\nExecute command\n"
+# /usr/bin/mount | /bin/grep /tmp     # This returns empty string
+# echo -e "\nCommand executed\n"
 
 
 # echo -e "\nExecute command\n"
@@ -143,3 +143,19 @@ echo -e "\nCommand executed\n"
 # fi
 
 # echo -e "\nCommand executed\n"
+
+# sed 's/Options=mode=1777,strictatime,nosuid,nodev/Options=mode=1777,strictatime,noexec,nodev,nosuid/' /etc/systemd/system/local-fs.target.wants/tmp.mount
+
+# echo -e "\nCommand executed\n"
+
+
+echo -e "\nCommand executed\n"
+
+# Check for the following output
+echo "unset r1_1_2 for reuse.." | tee -a $LOG
+unset r1_1_2
+echo 'Show Variable: $r1.1.2='$r1_1_2 | tee -a $LOG
+r1_1_2=$(/usr/bin/systemctl is-enabled tmp.mount)
+echo 'Set Variable: $r1.1.2='$r1_1_2 | tee -a $LOG
+
+echo -e "\nCommand executed\n"
