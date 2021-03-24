@@ -39,6 +39,11 @@ then
 
     if [[ diffstab != "" ]]
     then
+        echo "!!!!! /ETC/FSTAB"
+        cat /etc/fstab
+        echo "!!!!! /ETC/FSTAB.BACKUP"
+        cat /etc/fstab.backup
+        
         echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
         sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
         echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
@@ -64,13 +69,18 @@ then
 
     if [[ $TMPMOUNTTG != "" ]]
     then
+        # echo "!!!!! /ETC/FSTAB"
+        # cat /etc/fstab
+        # echo "!!!!! /ETC/FSTAB.BACKUP"
+        # cat /etc/fstab.backup
         echo "There is no tmp.mount"
         echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
-        yes | cp /etc/fstab.original /etc/fstab
+        yes | cp /etc/fstab /etc/fstab.backup
+        # yes | cp /etc/fstab.original /etc/fstab
         echo -e "\nRestore Original fstab" | tee -a $LOG
         echo "yes | cp /etc/fstab.original /etc/fstab" | tee -a $LOG
         yes | cp /etc/fstab.original /etc/fstab
-        cat /etc/fstab
+        # cat /etc/fstab
         echo "Update systemd.." | tee -a $LOG
         echo "systemctl daemon-reload" | tee -a $LOG
         systemctl daemon-reload
@@ -87,6 +97,9 @@ then
         echo "sed -i 's/Options=mode=1777,strictatime,nosuid,nodev/Options=mode=1777,strictatime,noexec,nodev,nosuid/' /usr/lib/systemd/system/tmp.mount" | tee -a $LOG
         sed -i 's/Options=mode=1777,strictatime,nosuid,nodev/Options=mode=1777,strictatime,noexec,nodev,nosuid/' /usr/lib/systemd/system/tmp.mount
 
+        # cat /etc/fstab.backup
+
+        # Here is the place where the fstab.backup is screwed
         echo "Restore Backup fstab" | tee -a $LOG
         echo "yes | cp /etc/fstab.backup /etc/fstab" | tee -a $LOG
         yes | cp /etc/fstab.backup /etc/fstab
