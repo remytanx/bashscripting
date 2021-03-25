@@ -20,6 +20,7 @@ then
         echo "Copy /etc/fstab to /etc/fstab.original" | tee -a $LOG
         echo "yes | cp /etc/fstab /etc/fstab.original" | tee -a $LOG
         yes | cp /etc/fstab /etc/fstab.original
+        echo -e "/etc/fstab.original created and backup" | tee -a $LOG
     else
         echo "/etc/fstab.original EXIST.." | tee -a $LOG
     fi
@@ -28,6 +29,7 @@ then
     then
         echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
         yes | cp /etc/fstab /etc/fstab.backup
+        echo -e "/etc/fstab.backup created and backup" | tee -a $LOG
     else
         echo "/etc/fstab.backup EXIST.." | tee -a $LOG
         echo "Append difference into /etc/fstab.backup" | tee -a $LOG
@@ -36,12 +38,18 @@ then
 
     diffstab=$(diff /etc/fstab /etc/fstab.backup)
 
-    if [[ diffstab != "" ]]
+    echo -e '\nThe diffstab value="'$diffstab'"'
+
+    if [[ $diffstab != "" ]]
     then
+        echo "diffstab is NOT empty!?"
+
         echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
         sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
         echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
         sed -i 's/^< //' /etc/fstab.backup
+
+        # The fstab.backup is still normal with rhel-swap
     else
         echo "unset diffstab" | tee -a $LOG
         unset diffstab
@@ -55,6 +63,8 @@ then
     echo "systemctl daemon-reload" | tee -a $LOG
     systemctl daemon-reload
     
+    # The fstab and fstab.backup is still normal with rhel-swap
+
     echo "mount -o remount,noexec /dev/shm" | tee -a $LOG
     mount -o remount,noexec /dev/shm 2>&1 | tee -a $LOG
     

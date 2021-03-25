@@ -17,36 +17,44 @@ then
 
     if [[ ! -f "/etc/fstab.original" ]]
     then
+        echo "/etc/fstab.original file does not exist.." | tee -a $LOG
         echo "Copy /etc/fstab to /etc/fstab.original" | tee -a $LOG
         echo "yes | cp /etc/fstab /etc/fstab.original" | tee -a $LOG
         yes | cp /etc/fstab /etc/fstab.original
+        echo -e "/etc/fstab.original created and backup" | tee -a $LOG
     else
         echo "/etc/fstab.original EXIST.." | tee -a $LOG
     fi
 
     if [[ ! -f "/etc/fstab.backup" ]]
     then
+        echo "/etc/fstab.backup file does not exist.." | tee -a $LOG
         echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
         yes | cp /etc/fstab /etc/fstab.backup
+        echo -e "/etc/fstab.backup created and backup" | tee -a $LOG
     else
         echo "/etc/fstab.backup EXIST.." | tee -a $LOG
         echo "Append difference into /etc/fstab.backup" | tee -a $LOG
         diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
-        
     fi
 
     diffstab=$(diff /etc/fstab /etc/fstab.backup)
 
-    if [[ diffstab != "" ]]
+    # echo -e '\nThe diffstab value="'$diffstab'"'
+
+    if [[ $diffstab != "" ]]
     then
-        echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
-        sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
-        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
-        sed -i 's/^< //' /etc/fstab.backup
+        echo "diffstab is NOT empty!?"
+
+        # Commented on 25 March 2021 because I cannot see the step yet...
+        # echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
+        # sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+        # echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        # sed -i 's/^< //' /etc/fstab.backup
     else
         echo "unset diffstab" | tee -a $LOG
         unset diffstab
-        echo 'Show Variable: diffstab='$diffstab | tee -a $LOG
+        echo 'Show Variable: diffstab="'$diffstab'"' | tee -a $LOG
     fi
 
     echo "Edit file, fstab, in /etc " | tee -a $LOG

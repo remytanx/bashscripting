@@ -20,7 +20,7 @@ echo "Hello World!"
 display_menu(){
 	while $FLAG;
 	do
-		echo "======================================="
+		echo -e "\n======================================="
 		echo "Best effort Remediation for RHEL 8.3"
 		echo "======================================="
 		echo "WARNING: ONLY RUN THIS SCRIPT AFTER PERFORMED THE hardeningRhel7.sh"
@@ -43,12 +43,14 @@ display_menu(){
 					touch /tmp/rhel8-3-remediation.txt 2>&1 | tee -a $LOG
 				fi
 
-				. ./rrh8-3part-1-1-1-1.sh
-                . ./rrh8-3part-1-1-1-3.sh
-                . ./rrh8-3part-1-1-1-4.sh
+				# Commented on 25 March 2021 to troubleshoot the sed on 1-1-10
+
+				# . ./rrh8-3part-1-1-1-1.sh
+                # . ./rrh8-3part-1-1-1-3.sh
+                # . ./rrh8-3part-1-1-1-4.sh
                 . ./rrh8-3part-1-1-10.sh
                 . ./rrh8-3part-1-1-17.sh
-                . ./rrh8-3part-1-1-2.sh
+                # . ./rrh8-3part-1-1-2.sh
                 # . ./rrh8-3part-1-1-2ii.sh
 
 			echo -e "\nList FAILED (my_array)\n"

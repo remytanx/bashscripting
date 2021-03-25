@@ -33,21 +33,29 @@ then
         echo "Append difference into /etc/fstab.backup" | tee -a $LOG
         echo "diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup" | tee -a $LOG
         diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
+
+        # The fstab and fstab.backup is still normal with rhel-swap
     fi
 
     diffstab=$(diff /etc/fstab /etc/fstab.backup)
 
+    echo -e '\n!!! The diffstab value:"'$diffstab'"'
+
     if [[ diffstab != "" ]]
     then
-        echo "!!!!! /ETC/FSTAB"
-        cat /etc/fstab
-        echo "!!!!! /ETC/FSTAB.BACKUP"
-        cat /etc/fstab.backup
+        echo -e 'diffstab is not empty!!'
+        # The fstab and fstab.backup is still normal with rhel-swap
+        # The following sed will remove the /dev/shm in /etc/fstab file causing everything to go weird
         
         echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
         sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
         echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
         sed -i 's/^< //' /etc/fstab.backup
+
+        echo -e "\n!!!!! /ETC/FSTAB"
+        cat /etc/fstab
+        echo -e "\n!!!!! /ETC/FSTAB.BACKUP"
+        cat /etc/fstab.backup
     else
         echo "unset diffstab" | tee -a $LOG
         unset diffstab
