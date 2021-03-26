@@ -10,9 +10,9 @@ echo -e "\n# 1.1.3 Ensure nodev option set on /tmp partition : [FAILED]" | tee -
 r1_1_3=$(/usr/bin/systemctl is-enabled tmp.mount)
 echo 'Set Variable: $r1.1.3="'$r1_1_3'"' | tee -a $LOG
 
-if [[ $r1_1_2 != "" ]] 
+if [[ $r1_1_3 != "" ]] 
 then
-    echo -e "1.1.2" $REXEC | tee -a $LOG
+    echo -e "1.1.3" $REXEC | tee -a $LOG
 
     # Remediation
     echo "Backup original file" | tee -a $LOG
@@ -39,10 +39,17 @@ then
 
     diffstab=$(diff /etc/fstab /etc/fstab.backup)
 
-    if [[ diffstab != "" ]]
+    if [[ $diffstab != "" ]]
     then
-        echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
-        sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+        echo -e 'diffstab is not empty!!'
+
+        # echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
+        # sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+        # echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        # sed -i 's/^< //' /etc/fstab.backup
+
+        echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
+        sed -i '/^[0-9]/d' /etc/fstab.backup
         echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
         sed -i 's/^< //' /etc/fstab.backup
     else
@@ -96,22 +103,22 @@ then
     fi
 
     # After remediation
-    echo "unset dr1_1_2 for reuse.." | tee -a $LOG
-    unset dr1_1_2
-    echo 'Show Variable: $dr1.1.2="'$dr1_1_2'"' | tee -a $LOG
-    dr1_1_2=$(/usr/bin/systemctl is-enabled tmp.mount)
+    # echo "unset dr1_1_3 for reuse.." | tee -a $LOG
+    # unset dr1_1_3
+    echo 'Show Variable: $dr1.1.3="'$dr1_1_3'"' | tee -a $LOG
+    dr1_1_3=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
     
-    if [[ $dr1_1_2 == "enabled" ]]
+    if [[ $dr1_1_3 == "[\s]*[,]?nodev" ]]
     then
-        echo $EXPECTED $dr1_1_2 | tee -a $LOG
+        echo $EXPECTED $dr1_1_3 | tee -a $LOG
         echo $RAPP | tee -a $LOG
     else
-        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.2\n" | tee -a $LOG
-        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.2")
+        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.3\n" | tee -a $LOG
+        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.3")
         # echo -e '\n$counter: '$counter"\n"
         # echo -e "${my_array[3]}"
         # ((counter++))
-        echo 'Output: "'$dr1_1_2'"' | tee -a $LOG
+        echo 'Output: "'$dr1_1_3'"' | tee -a $LOG
     fi
 fi
 ######################################################

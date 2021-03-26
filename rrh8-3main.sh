@@ -52,6 +52,7 @@ display_menu(){
                 . ./rrh8-3part-1-1-17.sh
                 . ./rrh8-3part-1-1-2.sh
                 . ./rrh8-3part-1-1-2ii.sh
+				. ./rrh8-3part-1-1-3.sh
 
 			echo -e "\nList FAILED (my_array)\n"
 			for i in "${my_array[@]}"; do echo "$i"; done

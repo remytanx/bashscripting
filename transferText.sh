@@ -11,7 +11,7 @@
 # echo -e "Command executed\n"
 
 
-# echo -e "\nExecute command\n"
+echo -e "\nExecute command\n"
 # echo "mount -o remount,noexec /var/tmp"
 # mount -o remount,noexec /var/tmp
 # dr1110=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
@@ -19,8 +19,8 @@
 # echo "mount | grep -E '\s/var/tmp\s' | grep -v noexec"
 # mount | grep -E '\s/var/tmp\s' | grep -v noexec
 
-# /usr/bin/mount | /usr/bin/grep 'on /var/tmp '
-# echo -e "\nCommand executed\n"
+/usr/bin/mount | /usr/bin/grep 'on /var/tmp '
+echo -e "\nCommand executed\n"
 
 
 # echo -e "\nExecute command"
@@ -50,9 +50,9 @@
 # echo -e "\nCommand executed\n"
 
 
-# echo -e "\nExecute command\n"
-# /bin/mount | /bin/grep 'on /dev/shm '
-# echo -e "\nCommand executed\n"
+echo -e "\nExecute command\n"
+/bin/mount | /bin/grep 'on /dev/shm '
+echo -e "\nCommand executed\n"
 
 
 ### NEED TO unset array after use ###
@@ -65,9 +65,9 @@
 # echo -e "\nCommand executed\n"
 
 
-# echo -e "\nExecute command\n"
-# /usr/bin/mount | /bin/grep /tmp     # This returns empty string
-# echo -e "\nCommand executed\n"
+echo -e "\nExecute command\n"
+/usr/bin/mount | /bin/grep /tmp     # This returns empty string
+echo -e "\nCommand executed\n"
 
 
 # echo -e "\nExecute command\n"
@@ -116,26 +116,26 @@
 # echo -e "\nCommand executed\n"
 
 
-echo -e "\nExecute command\n"
+# echo -e "\nExecute command\n"
 
-FILE="/etc/fstab.backup"
+# FILE="/etc/fstab.backup"
 
-cat $FILE
+# cat $FILE
 
 # sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
 # sed -i 's/^< //' /etc/fstab.backup
 
 # sed -i -n '/^< /{s/.*//;x;d;};x;p;${x;p;}' /etc/fstab.backup | sed ' sed '/^$/d''
 
-sed '/^[0-9]/d' $FILE
-sed 's/^< //' /etc/fstab.backup
+# sed '/^[0-9]/d' $FILE
+# sed 's/^< //' /etc/fstab.backup
 # cat $FILE
 
-echo -e "\nunset \$FILE"
-unset FILE
-echo -e '$FILE:"'$FILE'"'
+# echo -e "\nunset \$FILE"
+# unset FILE
+# echo -e '$FILE:"'$FILE'"'
 
-echo -e "\nCommand executed\n"
+# echo -e "\nCommand executed\n"
 
 
 # echo -e "\nExecute command\n"
@@ -171,3 +171,10 @@ echo -e "\nCommand executed\n"
 # echo 'Set Variable: $r1.1.2='$r1_1_2 | tee -a $LOG
 
 # echo -e "\nCommand executed\n"
+
+
+echo -e "\nExecute command\n"
+
+/usr/bin/mount | /usr/bin/grep 'on /tmp '
+
+echo -e "\nCommand executed\n"
