@@ -47,15 +47,20 @@ then
         # The fstab and fstab.backup is still normal with rhel-swap
         # The following sed will remove the /dev/shm in /etc/fstab file causing everything to go weird
         
-        echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
-        sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+        # echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
+        # sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+        # echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        # sed -i 's/^< //' /etc/fstab.backup
+
+        echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
+        sed -i '/^[0-9]/d' /etc/fstab.backup
         echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
         sed -i 's/^< //' /etc/fstab.backup
 
-        echo -e "\n!!!!! /ETC/FSTAB"
-        cat /etc/fstab
-        echo -e "\n!!!!! /ETC/FSTAB.BACKUP"
-        cat /etc/fstab.backup
+        # echo -e "\n!!!!! /ETC/FSTAB"
+        # cat /etc/fstab
+        # echo -e "\n!!!!! /ETC/FSTAB.BACKUP"
+        # cat /etc/fstab.backup
     else
         echo "unset diffstab" | tee -a $LOG
         unset diffstab

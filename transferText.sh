@@ -116,14 +116,26 @@
 # echo -e "\nCommand executed\n"
 
 
-# echo -e "\nExecute command\n"
+echo -e "\nExecute command\n"
 
-# # cat /etc/fstab.backup
+FILE="/etc/fstab.backup"
+
+cat $FILE
 
 # sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
 # sed -i 's/^< //' /etc/fstab.backup
 
-# echo -e "\nCommand executed\n"
+# sed -i -n '/^< /{s/.*//;x;d;};x;p;${x;p;}' /etc/fstab.backup | sed ' sed '/^$/d''
+
+sed '/^[0-9]/d' $FILE
+sed 's/^< //' /etc/fstab.backup
+# cat $FILE
+
+echo -e "\nunset \$FILE"
+unset FILE
+echo -e '$FILE:"'$FILE'"'
+
+echo -e "\nCommand executed\n"
 
 
 # echo -e "\nExecute command\n"
@@ -149,13 +161,13 @@
 # echo -e "\nCommand executed\n"
 
 
-echo -e "\nCommand executed\n"
+# echo -e "\nCommand executed\n"
 
-# Check for the following output
-echo "unset r1_1_2 for reuse.." | tee -a $LOG
-unset r1_1_2
-echo 'Show Variable: $r1.1.2='$r1_1_2 | tee -a $LOG
-r1_1_2=$(/usr/bin/systemctl is-enabled tmp.mount)
-echo 'Set Variable: $r1.1.2='$r1_1_2 | tee -a $LOG
+# # Check for the following output
+# echo "unset r1_1_2 for reuse.." | tee -a $LOG
+# unset r1_1_2
+# echo 'Show Variable: $r1.1.2='$r1_1_2 | tee -a $LOG
+# r1_1_2=$(/usr/bin/systemctl is-enabled tmp.mount)
+# echo 'Set Variable: $r1.1.2='$r1_1_2 | tee -a $LOG
 
-echo -e "\nCommand executed\n"
+# echo -e "\nCommand executed\n"

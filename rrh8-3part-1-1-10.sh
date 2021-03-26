@@ -19,7 +19,7 @@ then
     then
         echo "/etc/fstab.original file does not exist.." | tee -a $LOG
         echo "Copy /etc/fstab to /etc/fstab.original" | tee -a $LOG
-        echo "yes | cp /etc/fstab /etc/fstab.original" | tee -a $LOG
+        # echo "yes | cp /etc/fstab /etc/fstab.original" | tee -a $LOG
         yes | cp /etc/fstab /etc/fstab.original
         echo -e "/etc/fstab.original created and backup" | tee -a $LOG
     else
@@ -29,12 +29,12 @@ then
     if [[ ! -f "/etc/fstab.backup" ]]
     then
         echo "/etc/fstab.backup file does not exist.." | tee -a $LOG
-        echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
+        echo "Copy /etc/fstab to /etc/fstab.backup" | tee -a $LOG
         yes | cp /etc/fstab /etc/fstab.backup
         echo -e "/etc/fstab.backup created and backup" | tee -a $LOG
     else
         echo "/etc/fstab.backup EXIST.." | tee -a $LOG
-        echo "Append difference into /etc/fstab.backup" | tee -a $LOG
+        echo "Appending difference into /etc/fstab.backup" | tee -a $LOG
         diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
     fi
 
@@ -51,7 +51,13 @@ then
         # sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
         # echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
         # sed -i 's/^< //' /etc/fstab.backup
+
+        echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
+        sed -i '/^[0-9]/d' /etc/fstab.backup
+        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        sed -i 's/^< //' /etc/fstab.backup
     else
+        echo "diffstab is empty.." | tee -a $LOG
         echo "unset diffstab" | tee -a $LOG
         unset diffstab
         echo 'Show Variable: diffstab="'$diffstab'"' | tee -a $LOG
@@ -63,13 +69,13 @@ then
     echo -e "tmpfs\t/tmp\ttmpfs\tnoexec\t0\t0" >> /etc/fstab
     echo -e "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" >> /etc/fstab
     echo "Update systemd.." | tee -a $LOG
-    echo "systemctl daemon-reload" | tee -a $LOG
+    echo "Execute: systemctl daemon-reload" | tee -a $LOG
     systemctl daemon-reload
 
     echo "Mount /var/tmp and /tmp without rebooting system" | tee -a $LOG
-    echo -e "mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
+    echo -e "Execute: mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
     mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/ 2>&1 | tee -a $LOG
-    echo -e "mount -o remount,noexec,nosuid,nodev /tmp" | tee -a $LOG
+    echo -e "Execute: mount -o remount,noexec,nosuid,nodev /tmp" | tee -a $LOG
     mount -o remount,noexec,nosuid,nodev /tmp 2>&1 | tee -a $LOG
 
     # After remediation

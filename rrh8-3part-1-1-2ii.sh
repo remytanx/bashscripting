@@ -29,6 +29,7 @@ then
 
     if [[ ! -f "/etc/fstab.backup" ]]
     then
+        echo "Copy /etc/fstab to /etc/fstab.backup" | tee -a $LOG
         echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
         yes | cp /etc/fstab /etc/fstab.backup
     else
@@ -40,10 +41,17 @@ then
 
     diffstab=$(diff /etc/fstab /etc/fstab.backup)
 
-    if [[ diffstab != "" ]]
+    if [[ $diffstab != "" ]]
     then
-        echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
-        sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+        echo -e 'diffstab is not empty!!'
+
+        # echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
+        # sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+        # echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        # sed -i 's/^< //' /etc/fstab.backup
+
+        echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
+        sed -i '/^[0-9]/d' /etc/fstab.backup
         echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
         sed -i 's/^< //' /etc/fstab.backup
     else
@@ -68,9 +76,11 @@ then
     if [[ $TMPMOUNTTG != "" ]]
     then
         echo "There is no tmp.mount"
+        echo "Copy /etc/fstab.original /etc/fstab" | tee -a $LOG
         echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
         yes | cp /etc/fstab.original /etc/fstab
         echo "Restore Original fstab" | tee -a $LOG
+        echo "Copy /etc/fstab.original /etc/fstab" | tee -a $LOG
         echo "yes | cp /etc/fstab.original /etc/fstab" | tee -a $LOG
         yes | cp /etc/fstab.original /etc/fstab
         echo "Update systemd.." | tee -a $LOG
@@ -85,6 +95,7 @@ then
         sed -i 's/Options=mode=1777,strictatime,nosuid,nodev/Options=mode=1777,strictatime,noexec,nodev,nosuid/' /etc/systemd/system/local-fs.target.wants/tmp.mount
 
         echo "Restore Backup fstab" | tee -a $LOG
+        echo "Copy /etc/fstab.backup /etc/fstab" | tee -a $LOG
         echo "yes | cp /etc/fstab.backup /etc/fstab" | tee -a $LOG
         yes | cp /etc/fstab.backup /etc/fstab
         echo "Update systemd.." | tee -a $LOG

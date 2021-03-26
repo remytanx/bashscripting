@@ -27,30 +27,40 @@ then
 
     if [[ ! -f "/etc/fstab.backup" ]]
     then
+        echo "Copy /etc/fstab to /etc/fstab.backup" | tee -a $LOG
         echo "yes | cp /etc/fstab /etc/fstab.backup" | tee -a $LOG
         yes | cp /etc/fstab /etc/fstab.backup
         echo -e "/etc/fstab.backup created and backup" | tee -a $LOG
     else
         echo "/etc/fstab.backup EXIST.." | tee -a $LOG
-        echo "Append difference into /etc/fstab.backup" | tee -a $LOG
+        echo "Appending difference into /etc/fstab.backup" | tee -a $LOG
         diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
+
+        echo "Show FILE /etc/fstab.backup"
+        cat /etc/fstab.backup
     fi
 
     diffstab=$(diff /etc/fstab /etc/fstab.backup)
 
-    echo -e '\nThe diffstab value="'$diffstab'"'
+    echo -e '\nThe diffstab value="\n'$diffstab'\n"' | tee -a $LOG
 
     if [[ $diffstab != "" ]]
     then
-        echo "diffstab is NOT empty!?"
+        echo "diffstab is NOT empty!?" | tee -a $LOG
 
-        echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
-        sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
-        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
-        sed -i 's/^< //' /etc/fstab.backup
+        # echo "sed -i -n '/^< tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
+        # sed -i -n '/^< tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
+        # echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        # sed -i 's/^< //' /etc/fstab.backup
 
         # The fstab.backup is still normal with rhel-swap
+
+        echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
+        sed -i '/^[0-9]/d' /etc/fstab.backup
+        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        sed -i 's/^< //' /etc/fstab.backup
     else
+        echo "diffstab is empty.."
         echo "unset diffstab" | tee -a $LOG
         unset diffstab
         echo 'Show Variable: diffstab='$diffstab | tee -a $LOG
@@ -60,13 +70,13 @@ then
     echo -e 'Insert CLI: "tmpfs\t/dev/shm\ttmpfs\tdefaults,nodev,nosuid,noexec\t0\t0" in /etc/fstab' | tee -a $LOG
     echo -e "tmpfs\t/dev/shm\ttmpfs\tdefaults,nodev,nosuid,noexec\t0\t0" >> /etc/fstab
     echo "Update systemd.." | tee -a $LOG
-    echo "systemctl daemon-reload" | tee -a $LOG
+    echo "Execute: systemctl daemon-reload" | tee -a $LOG
     systemctl daemon-reload
     
     # The fstab and fstab.backup is still normal with rhel-swap
 
-    echo "mount -o remount,noexec /dev/shm" | tee -a $LOG
-    mount -o remount,noexec /dev/shm 2>&1 | tee -a $LOG
+    echo "Do: mount  /dev/shm" | tee -a $LOG
+    mount /dev/shm 2>&1 | tee -a $LOG
     
     # After remediation
     dr1_1_17=$(/bin/mount | /bin/grep 'on /dev/shm ')
