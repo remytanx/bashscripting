@@ -4,7 +4,7 @@ clear
 echo "View Logs in /root/rhel8-3-remediation.txt"
 if [[ -f "/root/rhel8-3-remediation.txt" ]]
 then
-    cat ~/rhel8-3-remediation.txt
+    cat /root/rhel8-3-remediation.txt
 else
     echo -e "File Does Not EXIST..\n"
 fi
@@ -36,9 +36,9 @@ echo -e "\nCheck df -h"
 df -h
 
 echo -e "\nList FAILED\n"
-if [[ -f "/tmp/rhel8-3-remediation.txt" ]]
+if [[ -f "/root/rhel8-3-remediation.txt" ]]
 then
-    cat /tmp/rhel8-3-remediation.txt | grep "NOT SUCCESSFUL"
+    cat /root/rhel8-3-remediation.txt | grep "NOT SUCCESSFUL"
 else
     echo -e "File Does Not EXIST..\n"
 fi

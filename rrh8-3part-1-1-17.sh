@@ -75,15 +75,15 @@ then
     
     # The fstab and fstab.backup is still normal with rhel-swap
 
-    checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+    checkExist=$(/bin/mount | /bin/grep 'on /dev/shm ')
 
     echo -e '$checkExist="'$checkExist'"'
 
     if [[ ! -z $checkExist ]]
     then
         echo "Mounted. Need to umount first." | tee -a $LOG
-        echo -e "Execute: umount /tmp" | tee -a $LOG
-        umount /tmp 2>&1 | tee -a $LOG
+        echo -e "Execute: umount /dev/shm" | tee -a $LOG
+        umount /dev/shm 2>&1 | tee -a $LOG
         echo "Do: mount  /dev/shm" | tee -a $LOG
         mount /dev/shm 2>&1 | tee -a $LOG
     else

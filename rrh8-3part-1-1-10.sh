@@ -75,6 +75,7 @@ then
     echo "Mount /var/tmp and /tmp without rebooting system" | tee -a $LOG
     echo -e "Execute: mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
     mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/ 2>&1 | tee -a $LOG
+    
     # echo -e "Execute: mount -o remount,noexec,nosuid,nodev /tmp" | tee -a $LOG
     # mount -o remount,noexec,nosuid,nodev /tmp 2>&1 | tee -a $LOG
 
@@ -93,10 +94,12 @@ then
         umount /tmp 2>&1 | tee -a $LOG
         echo -e "Execute: mount /tmp" | tee -a $LOG
         mount /tmp 2>&1 | tee -a $LOG
+        mount -o remount /tmp
     else
         echo "NOT mounted" | tee -a $LOG
         echo -e "Execute: mount /tmp" | tee -a $LOG
         mount /tmp 2>&1 | tee -a $LOG
+        mount -o remount /tmp
     fi
 
     # After remediation
