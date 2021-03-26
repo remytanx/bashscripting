@@ -22,8 +22,8 @@ echo -e "\nExecute: yes | cp /etc/fstab.original /etc/fstab"
 yes | cp /etc/fstab.original /etc/fstab
 echo "Execute: rm -rf /etc/fstab.*"
 rm -rf /etc/fstab.*
-echo "Update systemd.." | tee -a $LOG
-echo "systemctl daemon-reload" | tee -a $LOG
+echo "Update systemd.."
+echo "systemctl daemon-reload"
 systemctl daemon-reload
 
 echo -e "\nMount and Remount"

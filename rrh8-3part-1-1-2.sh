@@ -112,13 +112,46 @@ then
 
         # cat /etc/fstab.backup
 
-        # Here is the place where the fstab.backup is screwed
+        # Here is the place where the fstab.backup is screwed.
+        # Commented on 26 March 2021 above screw up is done.
         echo "Restore Backup fstab" | tee -a $LOG
+        echo "Copy /etc/fstab.backup /etc/fstab" | tee -a $LOG
         echo "yes | cp /etc/fstab.backup /etc/fstab" | tee -a $LOG
         yes | cp /etc/fstab.backup /etc/fstab
+        echo "Edit file, fstab, in /etc " | tee -a $LOG
+        echo -e 'Insert CLI: "tmpfs\t/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0" in /etc/fstab' | tee -a $LOG
+        echo -e "tmpfs\t/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0" >> /etc/fstab
+
         echo "Update systemd.." | tee -a $LOG
         echo "systemctl daemon-reload" | tee -a $LOG
         systemctl daemon-reload
+
+        # echo "Mount /var/tmp and /tmp without rebooting system" | tee -a $LOG
+        # echo -e "Execute: mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
+        # mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/ 2>&1 | tee -a $LOG
+        # echo -e "Execute: mount -o remount,defaults,rw,nosuid,nodev,noexec,relatime /tmp" | tee -a $LOG
+        # mount -o remount,defaults,rw,nosuid,nodev,noexec,relatime /tmp 2>&1 | tee -a $LOG
+
+        checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+
+        echo -e '$checkExist="'$checkExist'"'
+
+        if [[ ! -z $checkExist ]]
+        then
+            echo "Mounted. Need to umount first." | tee -a $LOG
+            echo -e "Execute: umount /tmp" | tee -a $LOG
+            umount /tmp 2>&1 | tee -a $LOG
+            echo -e "Execute: mount /tmp" | tee -a $LOG
+            mount /tmp 2>&1 | tee -a $LOG
+        else
+            echo "NOT mounted" | tee -a $LOG
+            echo -e "Execute: mount /tmp" | tee -a $LOG
+            mount /tmp 2>&1 | tee -a $LOG
+        fi
+
+
+        # echo -e "Execute: mount /tmp" | tee -a $LOG
+        # mount /tmp 2>&1 | tee -a $LOG        
     else
         echo "List and verify the existence of tmp.mount" | tee -a $LOG
         echo "ls -lat /etc/systemd/system/local-fs.target.wants/" | tee -a $LOG

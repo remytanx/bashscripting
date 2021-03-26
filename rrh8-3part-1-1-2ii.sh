@@ -101,6 +101,24 @@ then
         echo "Update systemd.." | tee -a $LOG
         echo "systemctl daemon-reload" | tee -a $LOG
         systemctl daemon-reload
+
+        checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+
+        echo -e '$checkExist="'$checkExist'"'
+
+        if [[ ! -z $checkExist ]]
+        then
+            echo "Mounted. Need to umount first." | tee -a $LOG
+            echo -e "Execute: umount /tmp" | tee -a $LOG
+            umount /tmp 2>&1 | tee -a $LOG
+            echo -e "Execute: mount /tmp" | tee -a $LOG
+            mount /tmp 2>&1 | tee -a $LOG
+        else
+            echo "NOT mounted" | tee -a $LOG
+            echo -e "Execute: mount /tmp" | tee -a $LOG
+            mount /tmp 2>&1 | tee -a $LOG
+        fi
+
     else
         echo "List and verify the existence of tmp.mount" | tee -a $LOG
         echo "ls -lat /etc/systemd/system/local-fs.target.wants/" | tee -a $LOG

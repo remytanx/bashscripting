@@ -75,8 +75,27 @@ then
     echo "Mount /var/tmp and /tmp without rebooting system" | tee -a $LOG
     echo -e "Execute: mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/" | tee -a $LOG
     mount -o rw,noexec,nosuid,nodev,bind /tmp/ /var/tmp/ 2>&1 | tee -a $LOG
-    echo -e "Execute: mount -o remount,noexec,nosuid,nodev /tmp" | tee -a $LOG
-    mount -o remount,noexec,nosuid,nodev /tmp 2>&1 | tee -a $LOG
+    # echo -e "Execute: mount -o remount,noexec,nosuid,nodev /tmp" | tee -a $LOG
+    # mount -o remount,noexec,nosuid,nodev /tmp 2>&1 | tee -a $LOG
+
+    checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+
+    echo -e '$checkExist="'$checkExist'"'
+
+    if [[ ! -z $checkExist ]]
+    then
+        echo "Mounted. Need to umount first." | tee -a $LOG
+        echo -e "Execute: umount /tmp" | tee -a $LOG
+        umount /tmp 2>&1 | tee -a $LOG
+        echo -e "Execute: mount /tmp" | tee -a $LOG
+        mount /tmp 2>&1 | tee -a $LOG
+    else
+        echo "NOT mounted" | tee -a $LOG
+        echo -e "Execute: mount /tmp" | tee -a $LOG
+        mount /tmp 2>&1 | tee -a $LOG
+    fi
+
+    
 
     # After remediation
     dr1_1_10=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')

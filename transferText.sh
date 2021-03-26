@@ -178,3 +178,20 @@ echo -e "\nExecute command\n"
 /usr/bin/mount | /usr/bin/grep 'on /tmp '
 
 echo -e "\nCommand executed\n"
+
+
+
+echo -e "\nExecute command\n"
+
+checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+
+echo -e '$checkExist="'$checkExist'"'
+
+if [[ ! -z $checkExist ]]
+then
+    echo "Mounted"
+else
+    echo "NOT mounted"
+fi
+
+echo -e "\nCommand executed\n"

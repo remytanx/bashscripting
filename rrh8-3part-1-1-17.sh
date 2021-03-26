@@ -75,8 +75,26 @@ then
     
     # The fstab and fstab.backup is still normal with rhel-swap
 
-    echo "Do: mount  /dev/shm" | tee -a $LOG
-    mount /dev/shm 2>&1 | tee -a $LOG
+    checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+
+    echo -e '$checkExist="'$checkExist'"'
+
+    if [[ ! -z $checkExist ]]
+    then
+        echo "Mounted. Need to umount first." | tee -a $LOG
+        echo -e "Execute: umount /tmp" | tee -a $LOG
+        umount /tmp 2>&1 | tee -a $LOG
+        echo "Do: mount  /dev/shm" | tee -a $LOG
+        mount /dev/shm 2>&1 | tee -a $LOG
+    else
+        echo "NOT mounted" | tee -a $LOG
+        echo "Do: mount  /dev/shm" | tee -a $LOG
+        mount /dev/shm 2>&1 | tee -a $LOG
+    fi
+
+
+    # echo "Do: mount  /dev/shm" | tee -a $LOG
+    # mount /dev/shm 2>&1 | tee -a $LOG
     
     # After remediation
     dr1_1_17=$(/bin/mount | /bin/grep 'on /dev/shm ')
