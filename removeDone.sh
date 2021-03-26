@@ -8,8 +8,8 @@ my_arr=()
 echo -e "\nExecution\n"
 
 
-echo "Execute: rm -rf /tmp/rhel8-3-remediation.txt"
-rm -rf /tmp/rhel8-3-remediation.txt
+echo "Execute: rm -rf /root/rhel8-3-remediation.txt"
+rm -rf /root/rhel8-3-remediation.txt
 
 echo "Execute: rm -rf /etc/modprobe.d/cramfs.conf"
 rm -rf /etc/modprobe.d/cramfs.conf

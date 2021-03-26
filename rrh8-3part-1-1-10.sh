@@ -80,7 +80,11 @@ then
 
     checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
 
-    echo -e '$checkExist="'$checkExist'"'
+    echo -e '$checkExist="'$checkExist'"' | tee -a $LOG
+
+    # !!! HERE IS THE FUCKING MOUNT /TMP PROBLEM !!!
+    # Try reboot will solve the missing files and folder in the /tmp
+    # YES! All the folders come back
 
     if [[ ! -z $checkExist ]]
     then
@@ -94,8 +98,6 @@ then
         echo -e "Execute: mount /tmp" | tee -a $LOG
         mount /tmp 2>&1 | tee -a $LOG
     fi
-
-    
 
     # After remediation
     dr1_1_10=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')

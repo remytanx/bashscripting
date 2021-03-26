@@ -2,7 +2,7 @@
 #AUTHOR REMY TAN#
 
 # Global VAR
-LOG='/tmp/rhel8-3-remediation.txt'
+LOG='/root/rhel8-3-remediation.txt'
 REXEC='Remediation executed.'
 RAPP='Remediation applied.'
 EXPECTED='expect: '
@@ -39,8 +39,8 @@ display_menu(){
 				then
 					echo "File '${LOG}' not found. Creating file..."
 					# Create a log file for done steps.
-					echo "touch /tmp/rhel8-3-remediation.txt" | tee -a $LOG
-					touch /tmp/rhel8-3-remediation.txt 2>&1 | tee -a $LOG
+					echo "touch /root/rhel8-3-remediation.txt" | tee -a $LOG
+					touch /root/rhel8-3-remediation.txt 2>&1 | tee -a $LOG
 				fi
 
 				# Commented on 25 March 2021 to troubleshoot the sed on 1-1-10
@@ -49,9 +49,9 @@ display_menu(){
                 . ./rrh8-3part-1-1-1-3.sh
                 . ./rrh8-3part-1-1-1-4.sh
                 . ./rrh8-3part-1-1-10.sh
-                # . ./rrh8-3part-1-1-17.sh
-                # . ./rrh8-3part-1-1-2.sh
-                # . ./rrh8-3part-1-1-2ii.sh
+                . ./rrh8-3part-1-1-17.sh
+                . ./rrh8-3part-1-1-2.sh
+                . ./rrh8-3part-1-1-2ii.sh
 				# . ./rrh8-3part-1-1-3.sh
 
 			echo -e "\nList FAILED (my_array)\n"

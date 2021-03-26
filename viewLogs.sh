@@ -1,10 +1,10 @@
 #!/bin/bash
 
 clear
-echo "View Logs in /tmp/rhel8-3-remediation.txt"
-if [[ -f "/tmp/rhel8-3-remediation.txt" ]]
+echo "View Logs in /root/rhel8-3-remediation.txt"
+if [[ -f "/root/rhel8-3-remediation.txt" ]]
 then
-    cat /tmp/rhel8-3-remediation.txt
+    cat ~/rhel8-3-remediation.txt
 else
     echo -e "File Does Not EXIST..\n"
 fi
@@ -31,6 +31,9 @@ echo -e "\n/usr/bin/mount | /usr/bin/grep 'on /tmp '"
 echo -e "\nsystemctl is-enabled tmp.mount"
 /usr/bin/systemctl is-enabled tmp.mount
 
+
+echo -e "\nCheck df -h"
+df -h
 
 echo -e "\nList FAILED\n"
 if [[ -f "/tmp/rhel8-3-remediation.txt" ]]
