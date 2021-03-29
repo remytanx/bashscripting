@@ -114,13 +114,29 @@ then
 
         # Here is the place where the fstab.backup is screwed.
         # Commented on 26 March 2021 above screw up is done.
+        # Found on 29 March 2021 that in /etc/fstab, a newline of /tmp is appended in /etc/fstab instead of replacing. RT
         echo "Restore Backup fstab" | tee -a $LOG
         echo "Copy /etc/fstab.backup /etc/fstab" | tee -a $LOG
         echo "yes | cp /etc/fstab.backup /etc/fstab" | tee -a $LOG
         yes | cp /etc/fstab.backup /etc/fstab
         echo "Edit file, fstab, in /etc " | tee -a $LOG
-        echo -e 'Insert CLI: "tmpfs\t/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0" in /etc/fstab' | tee -a $LOG
-        echo -e "tmpfs\t/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0" >> /etc/fstab
+
+        # Here is where I will use sed to find and replace the tmpfs\t/tmp\ttmpfs line.. 29 March 2021
+
+        echo "Create a changelog.txt file" | tee -a $LOG
+        touch /root/changelog.txt
+
+        sed -i "s/^tmpfs\t\/tmp\ttmpfs.*/tmpfs\t\/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0/w /root/changelog.txt" "/etc/fstab"
+        if [ -s /root/changelog.txt ]; then
+            echo "# CHANGES MADE, DO SOME STUFF HERE"
+            echo -e 'Edit and insert CLI: "tmpfs\t/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0" in /etc/fstab' | tee -a $LOG
+            # echo -e "tmpfs\t/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0" >> /etc/fstab
+        else
+            echo "# NO CHANGES MADE, DO SOME OTHER STUFF HERE"
+        fi
+
+        echo "Remove /root/changelog.txt" | tee -a $LOG
+        rm -rf /root/changelog.txt
 
         echo "Update systemd.." | tee -a $LOG
         echo "systemctl daemon-reload" | tee -a $LOG
@@ -143,10 +159,14 @@ then
             umount /tmp 2>&1 | tee -a $LOG
             echo -e "Execute: mount /tmp" | tee -a $LOG
             mount /tmp 2>&1 | tee -a $LOG
+            echo -e "Execute: mount -o remount /tmp" | tee -a $LOG
+            mount -o remount /tmp | tee -a $LOG
         else
             echo "NOT mounted" | tee -a $LOG
             echo -e "Execute: mount /tmp" | tee -a $LOG
             mount /tmp 2>&1 | tee -a $LOG
+            echo -e "Execute: mount -o remount /tmp" | tee -a $LOG
+            mount -o remount /tmp | tee -a $LOG
         fi
 
 

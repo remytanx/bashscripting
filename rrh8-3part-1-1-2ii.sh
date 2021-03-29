@@ -112,11 +112,14 @@ then
             echo -e "Execute: umount /tmp" | tee -a $LOG
             umount /tmp 2>&1 | tee -a $LOG
             echo -e "Execute: mount /tmp" | tee -a $LOG
-            mount /tmp 2>&1 | tee -a $LOG
+            echo -e "Execute: mount -o remount /tmp" | tee -a $LOG
+            mount -o remount /tmp | tee -a $LOG
         else
             echo "NOT mounted" | tee -a $LOG
             echo -e "Execute: mount /tmp" | tee -a $LOG
             mount /tmp 2>&1 | tee -a $LOG
+            echo -e "Execute: mount -o remount /tmp" | tee -a $LOG
+            mount -o remount /tmp | tee -a $LOG
         fi
 
     else

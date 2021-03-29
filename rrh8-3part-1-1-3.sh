@@ -7,7 +7,7 @@
 echo -e "\n# 1.1.3 Ensure nodev option set on /tmp partition : [FAILED]" | tee -a $LOG
 
 # Check for the following output
-r1_1_3=$(/usr/bin/systemctl is-enabled tmp.mount)
+r1_1_3=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
 echo 'Set Variable: $r1.1.3="'$r1_1_3'"' | tee -a $LOG
 
 if [[ $r1_1_3 != "" ]] 
@@ -36,6 +36,12 @@ then
         echo "diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup" | tee -a $LOG
         diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
     fi
+
+    # I am adding the nodev fix here. 29 March 2021, RT
+
+    /usr/bin/mount | /usr/bin/grep 'on /tmp '
+
+
 
     diffstab=$(diff /etc/fstab /etc/fstab.backup)
 
