@@ -3,16 +3,16 @@
 #!/bin/bash
 
 ############################################################
-# 1.1.3 Ensure nodev option set on /tmp partition : [FAILED]
-echo -e "\n# 1.1.3 Ensure nodev option set on /tmp partition : [FAILED]" | tee -a $LOG
+# 1.1.5 Ensure noexec option set on /tmp partition : [FAILED]
+echo -e "\n# 1.1.5 Ensure noexec option set on /tmp partition : [FAILED]" | tee -a $LOG
 
 # Check for the following output
-r1_1_3=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
-echo 'Set Variable: $r1.1.3="'$r1_1_3'"' | tee -a $LOG
+r1_1_5=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+echo 'Set Variable: $r1.1.5="'$r1_1_5'"' | tee -a $LOG
 
-if [[ $r1_1_3 == "" ]] 
+if [[ $r1_1_5 == "" ]] 
 then
-    echo -e "1.1.3" $REXEC | tee -a $LOG
+    echo -e "1.1.5" $REXEC | tee -a $LOG
 
     # Remediation
     echo "Backup original file" | tee -a $LOG
@@ -43,7 +43,7 @@ then
     echo "Create a changelog.txt file" | tee -a $LOG
     touch /root/changelog.txt
 
-    sed -i "s/^tmpfs\t\/tmp\ttmpfs\tdefaults,rw,nosuid,nodev.*/tmpfs\t\/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0/w /root/changelog.txt" "/etc/fstab"
+    sed -i "s/^tmpfs\t\/tmp\ttmpfs\tdefault,rw,nosuid,nodev.*/tmpfs\t\/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0/w /root/changelog.txt" "/etc/fstab"
     if [ -s /root/changelog.txt ]; then
         echo "# CHANGES MADE, DO SOME STUFF HERE"
         echo -e 'Edit and insert CLI: "tmpfs\t/tmp\ttmpfs\tdefaults,rw,nosuid,nodev,noexec,relatime\t0\t0" in /etc/fstab' | tee -a $LOG
@@ -85,27 +85,27 @@ then
     fi
 
     # After remediation
-    # echo "unset dr1_1_3 for reuse.." | tee -a $LOG
-    # unset dr1_1_3
-    echo 'Show Variable: $dr1.1.3="'$dr1_1_3'"' | tee -a $LOG
-    dr1_1_3=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+    # echo "unset dr1_1_5 for reuse.." | tee -a $LOG
+    # unset dr1_1_5
+    echo 'Show Variable: $dr1.1.5="'$dr1_1_5'"' | tee -a $LOG
+    dr1_1_5=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
     
-    if [[ $dr1_1_3 == "[\s]*[,]?nodev" ]]
+    if [[ $dr1_1_5 == "[\s]*[,]?nodev" ]]
     then
-        echo $EXPECTED $dr1_1_3 | tee -a $LOG
+        echo $EXPECTED $dr1_1_5 | tee -a $LOG
         echo $RAPP | tee -a $LOG
     else
-        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.3\n" | tee -a $LOG
-        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.3")
+        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.5\n" | tee -a $LOG
+        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.5")
         # echo -e '\n$counter: '$counter"\n"
         # echo -e "${my_array[3]}"
         # ((counter++))
-        echo 'Output: "'$dr1_1_3'"' | tee -a $LOG
+        echo 'Output: "'$dr1_1_5'"' | tee -a $LOG
     fi
 else
-    echo 'Show Variable: $r1.1.3="'$r1_1_3'"' | tee -a $LOG
+    echo 'Show Variable: $r1.1.5="'$r1_1_5'"' | tee -a $LOG
     echo "/tmp is already mounted. Verification needed for the mount." | tee -a $LOG
-    echo -e "1.1.3" $REXEC | tee -a $LOG
+    echo -e "1.1.5" $REXEC | tee -a $LOG
 
     # Remediation
     echo "Backup original file" | tee -a $LOG
@@ -129,9 +129,6 @@ else
         echo "diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup" | tee -a $LOG
         diff /etc/fstab /etc/fstab.backup >> /etc/fstab.backup
     fi
-
-    # I am adding the nodev fix here. 29 March 2021, RT
-    # Here, it is to check if "nodev" exist.. Continue writing..
 
     echo "Create a changelog.txt file" | tee -a $LOG
     touch /root/changelog.txt
@@ -156,11 +153,6 @@ else
     then
         echo -e 'diffstab is not empty!!'
 
-        # echo "sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};\${x;p;}' /etc/fstab.backup" | tee -a $LOG
-        # sed -i -n '/tmpfs/{x;d;};1h;1!{x;p;};${x;p;}' /etc/fstab.backup
-        # echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
-        # sed -i 's/^< //' /etc/fstab.backup
-
         echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^[0-9]/d' /etc/fstab.backup
         echo "sed -i '/^<.*/d' /etc/fstab.backup" | tee -a $LOG
@@ -180,22 +172,22 @@ else
     fi
 
     # After remediation
-    # echo "unset dr1_1_3 for reuse.." | tee -a $LOG
-    # unset dr1_1_3
-    echo 'Show Variable: $dr1.1.3="'$dr1_1_3'"' | tee -a $LOG
-    dr1_1_3=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+    # echo "unset dr1_1_5 for reuse.." | tee -a $LOG
+    # unset dr1_1_5
+    echo 'Show Variable: $dr1.1.5="'$dr1_1_5'"' | tee -a $LOG
+    dr1_1_5=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
     
-    if [[ $dr1_1_3 == "[\s]*[,]?nodev" ]]
+    if [[ $dr1_1_5 == "[\s]*[,]?noexec" ]]
     then
-        echo $EXPECTED $dr1_1_3 | tee -a $LOG
+        echo $EXPECTED $dr1_1_5 | tee -a $LOG
         echo $RAPP | tee -a $LOG
     else
-        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.3\n" | tee -a $LOG
-        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.3")
+        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.5\n" | tee -a $LOG
+        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.5")
         # echo -e '\n$counter: '$counter"\n"
         # echo -e "${my_array[3]}"
         # ((counter++))
-        echo 'Output: "'$dr1_1_3'"' | tee -a $LOG
+        echo 'Output: "'$dr1_1_5'"' | tee -a $LOG
     fi
 fi
 ############################################################

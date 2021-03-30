@@ -11,7 +11,7 @@
 # echo -e "Command executed\n"
 
 
-echo -e "\nExecute command\n"
+# echo -e "\nExecute command\n"
 # echo "mount -o remount,noexec /var/tmp"
 # mount -o remount,noexec /var/tmp
 # dr1110=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
@@ -19,8 +19,8 @@ echo -e "\nExecute command\n"
 # echo "mount | grep -E '\s/var/tmp\s' | grep -v noexec"
 # mount | grep -E '\s/var/tmp\s' | grep -v noexec
 
-/usr/bin/mount | /usr/bin/grep 'on /var/tmp '
-echo -e "\nCommand executed\n"
+# /usr/bin/mount | /usr/bin/grep 'on /var/tmp '
+# echo -e "\nCommand executed\n"
 
 
 # echo -e "\nExecute command"
@@ -50,9 +50,9 @@ echo -e "\nCommand executed\n"
 # echo -e "\nCommand executed\n"
 
 
-echo -e "\nExecute command\n"
-/bin/mount | /bin/grep 'on /dev/shm '
-echo -e "\nCommand executed\n"
+# echo -e "\nExecute command\n"
+# /bin/mount | /bin/grep 'on /dev/shm '
+# echo -e "\nCommand executed\n"
 
 
 ### NEED TO unset array after use ###
@@ -65,9 +65,9 @@ echo -e "\nCommand executed\n"
 # echo -e "\nCommand executed\n"
 
 
-echo -e "\nExecute command\n"
-/usr/bin/mount | /bin/grep /tmp     # This returns empty string
-echo -e "\nCommand executed\n"
+# echo -e "\nExecute command\n"
+# /usr/bin/mount | /bin/grep /tmp     # This returns empty string
+# echo -e "\nCommand executed\n"
 
 
 # echo -e "\nExecute command\n"
@@ -173,25 +173,25 @@ echo -e "\nCommand executed\n"
 # echo -e "\nCommand executed\n"
 
 
-echo -e "\nExecute command\n"
+# echo -e "\nExecute command\n"
 
-/usr/bin/mount | /usr/bin/grep 'on /tmp '
+# /usr/bin/mount | /usr/bin/grep 'on /tmp '
 
-echo -e "\nCommand executed\n"
+# echo -e "\nCommand executed\n"
 
 
 
-echo -e "\nExecute command\n"
+# echo -e "\nExecute command\n"
 
-checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
+# checkExist=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
 
-echo -e '$checkExist="'$checkExist'"'
+# echo -e '$checkExist="'$checkExist'"'
 
-if [[ ! -z $checkExist ]]
-then
-    echo "Mounted"
-else
-    echo "NOT mounted"
-fi
+# if [[ ! -z $checkExist ]]
+# then
+#     echo "Mounted"
+# else
+#     echo "NOT mounted"
+# fi
 
-echo -e "\nCommand executed\n"
+# echo -e "\nCommand executed\n"

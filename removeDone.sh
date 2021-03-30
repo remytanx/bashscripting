@@ -69,7 +69,7 @@ unset EXPECTED
 unset FLAG
 unset my_array
 unset TMPMOUNTTG
-
+unset checkExist
 
 echo -e "\nSet all variables back to <empty>"
 # my_arr+=("r1_1_1_1=")

@@ -11,7 +11,8 @@ echo 'Show Variable: $r1.1.2="'$r1_1_2'"' | tee -a $LOG
 r1_1_2=$(/usr/bin/systemctl is-enabled tmp.mount)
 echo 'Set Variable: $r1.1.2="'$r1_1_2'"' | tee -a $LOG
 
-if [[ $r1_1_2 != "" ]] 
+# I need to change this to "disabled". Please verify. Commented on 29 March 2021
+if [[ $r1_1_2 != "" || $r1_1_2 != "enabled" ]] 
 then
     echo -e "1.1.2" $REXEC | tee -a $LOG
 
@@ -52,8 +53,12 @@ then
 
         echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^[0-9]/d' /etc/fstab.backup
-        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
-        sed -i 's/^< //' /etc/fstab.backup
+        echo "sed -i '/^<.*/d' /etc/fstab.backup" | tee -a $LOG
+        sed -i '/^<.*/d' /etc/fstab.backup
+        echo "sed -i '/^---.*/d' /etc/fstab.backup" | tee -a $LOG
+        sed -i '/^---.*/d' /etc/fstab.backup
+        echo "sed -i '/^>.*/d' /etc/fstab.backup" | tee -a $LOG
+        sed -i '/^>.*/d' /etc/fstab.backup
     else
         echo "unset diffstab" | tee -a $LOG
         unset diffstab
