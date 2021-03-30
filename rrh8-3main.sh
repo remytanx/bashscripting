@@ -57,6 +57,7 @@ display_menu(){
 				. ./rrh8-3part-1-1-5.sh
 				. ./rrh8-3part-1-1-8.sh
 				. ./rrh8-3part-1-1-9.sh
+				. ./rrh8-3part-1-2-1.sh
 
 
 			echo -e "\nList FAILED (my_array)\n"

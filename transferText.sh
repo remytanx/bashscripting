@@ -194,4 +194,8 @@
 #     echo "NOT mounted"
 # fi
 
-# echo -e "\nCommand executed\n"
+# echo -e "\nCommand executed\n"sed -i '/^---.*/d' /etc/fstab.backup
+
+touch test.txt
+/usr/bin/subscription-manager identity 2> test.txt
+echo 'Set Variable: $r1.2.1="'$r1_2_1'"' | tee -a test.txt
