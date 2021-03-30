@@ -3,16 +3,16 @@
 #!/bin/bash
 
 ############################################################
-# 1.1.8 Ensure nodev option set on /var/tmp partition : [FAILED]
-echo -e "\n# 1.1.8 Ensure nodev option set on /var/tmp partition : [FAILED]" | tee -a $LOG
+# 1.1.9 Ensure nosuid option set on /var/tmp partition : [FAILED]
+echo -e "\n# 1.1.9 Ensure nosuid option set on /var/tmp partition : [FAILED]" | tee -a $LOG
 
 # Check for the following output
-r1_1_8=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
-echo 'Set Variable: $r1.1.8="'$r1_1_8'"' | tee -a $LOG
+r1_1_9=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+echo 'Set Variable: $r1.1.9="'$r1_1_9'"' | tee -a $LOG
 
-if [[ $r1_1_8 == "" ]] 
+if [[ $r1_1_9 == "" ]] 
 then
-    echo -e "1.1.8" $REXEC | tee -a $LOG
+    echo -e "1.1.9" $REXEC | tee -a $LOG
 
     # Remediation
     echo "Backup original file" | tee -a $LOG
@@ -43,7 +43,7 @@ then
     echo "Create a changelog.txt file" | tee -a $LOG
     touch /root/changelog.txt
 
-    sed -i "s/^/tmp\t/var/tmp\tnone\trw,noexec,nosuid.*/\/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0/w /root/changelog.txt" "/etc/fstab"
+    sed -i "s/^/tmp\t/var/tmp\tnone\trw,noexec.*/\/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0/w /root/changelog.txt" "/etc/fstab"
     if [ -s /root/changelog.txt ]; then
         echo "# CHANGES MADE, DO SOME STUFF HERE"
         echo -e 'Edit and insert CLI: "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" in /etc/fstab' | tee -a $LOG
@@ -85,27 +85,27 @@ then
     fi
 
     # After remediation
-    # echo "unset dr1_1_8 for reuse.." | tee -a $LOG
-    # unset dr1_1_8
-    echo 'Show Variable: $dr1.1.8="'$dr1_1_8'"' | tee -a $LOG
-    dr1_1_8=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+    # echo "unset dr1_1_9 for reuse.." | tee -a $LOG
+    # unset dr1_1_9
+    echo 'Show Variable: $dr1.1.9="'$dr1_1_9'"' | tee -a $LOG
+    dr1_1_9=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
     
-    if [[ $dr1_1_8 == "[\s]*[,]?nodev" ]]
+    if [[ $dr1_1_9 == "[\s]*[,]?nosuid" ]]
     then
-        echo $EXPECTED $dr1_1_8 | tee -a $LOG
+        echo $EXPECTED $dr1_1_9 | tee -a $LOG
         echo $RAPP | tee -a $LOG
     else
-        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.8\n" | tee -a $LOG
-        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.8")
+        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.9\n" | tee -a $LOG
+        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.9")
         # echo -e '\n$counter: '$counter"\n"
         # echo -e "${my_array[3]}"
         # ((counter++))
-        echo 'Output: "'$dr1_1_8'"' | tee -a $LOG
+        echo 'Output: "'$dr1_1_9'"' | tee -a $LOG
     fi
 else
-    echo 'Show Variable: $r1.1.8="'$r1_1_8'"' | tee -a $LOG
+    echo 'Show Variable: $r1.1.9="'$r1_1_9'"' | tee -a $LOG
     echo "/var/tmp is already mounted. Verification needed for the mount." | tee -a $LOG
-    echo -e "1.1.8" $REXEC | tee -a $LOG
+    echo -e "1.1.9" $REXEC | tee -a $LOG
 
     # Remediation
     echo "Backup original file" | tee -a $LOG
@@ -136,7 +136,7 @@ else
     echo "Create a changelog.txt file" | tee -a $LOG
     touch /root/changelog.txt
 
-    sed -i "s/^/tmp\t/var/tmp\tnone\trw,noexec,nosuid.*/\/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0/w /root/changelog.txt" "/etc/fstab"
+    sed -i "s/^/tmp\t/var/tmp\tnone\trw,noexec.*/\/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0/w /root/changelog.txt" "/etc/fstab"
     if [ -s /root/changelog.txt ]; then
         echo "# CHANGES MADE, DO SOME STUFF HERE"
         echo -e 'Edit and insert CLI: "/tmp\t/var/tmp\tnone\trw,noexec,nosuid,nodev,bind\t0\t0" in /etc/fstab' | tee -a $LOG
@@ -178,22 +178,22 @@ else
     fi
 
     # After remediation
-    # echo "unset dr1_1_8 for reuse.." | tee -a $LOG
-    # unset dr1_1_8
-    echo 'Show Variable: $dr1.1.8="'$dr1_1_8'"' | tee -a $LOG
-    dr1_1_8=$(/usr/bin/mount | /usr/bin/grep 'on /var/tmp ')
+    # echo "unset dr1_1_9 for reuse.." | tee -a $LOG
+    # unset dr1_1_9
+    echo 'Show Variable: $dr1.1.9="'$dr1_1_9'"' | tee -a $LOG
+    dr1_1_9=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
     
-    if [[ $dr1_1_8 == "[\s]*[,]?nodev" ]]
+    if [[ $dr1_1_9 == "[\s]*[,]?nosuid" ]]
     then
-        echo $EXPECTED $dr1_1_8 | tee -a $LOG
+        echo $EXPECTED $dr1_1_9 | tee -a $LOG
         echo $RAPP | tee -a $LOG
     else
-        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.8\n" | tee -a $LOG
-        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.8")
+        echo -e "\n!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.9\n" | tee -a $LOG
+        my_array+=("!!! REMEDIATION IS NOT SUCCESSFUL FOR # 1.1.9")
         # echo -e '\n$counter: '$counter"\n"
         # echo -e "${my_array[3]}"
         # ((counter++))
-        echo 'Output: "'$dr1_1_8'"' | tee -a $LOG
+        echo 'Output: "'$dr1_1_9'"' | tee -a $LOG
     fi
 fi
 ############################################################

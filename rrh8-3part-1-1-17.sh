@@ -57,8 +57,8 @@ then
 
         echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^[0-9]/d' /etc/fstab.backup
-        echo "sed -i '/^<.*/d' /etc/fstab.backup" | tee -a $LOG
-        sed -i '/^<.*/d' /etc/fstab.backup
+        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        sed -i 's/^< //' /etc/fstab.backup
         echo "sed -i '/^---.*/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^---.*/d' /etc/fstab.backup
         echo "sed -i '/^>.*/d' /etc/fstab.backup" | tee -a $LOG

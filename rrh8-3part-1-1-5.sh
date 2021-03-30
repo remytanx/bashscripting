@@ -68,8 +68,8 @@ then
 
         echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^[0-9]/d' /etc/fstab.backup
-        echo "sed -i '/^<.*/d' /etc/fstab.backup" | tee -a $LOG
-        sed -i '/^<.*/d' /etc/fstab.backup
+        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        sed -i 's/^< //' /etc/fstab.backup
         echo "sed -i '/^---.*/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^---.*/d' /etc/fstab.backup
         echo "sed -i '/^>.*/d' /etc/fstab.backup" | tee -a $LOG
@@ -90,7 +90,7 @@ then
     echo 'Show Variable: $dr1.1.5="'$dr1_1_5'"' | tee -a $LOG
     dr1_1_5=$(/usr/bin/mount | /usr/bin/grep 'on /tmp ')
     
-    if [[ $dr1_1_5 == "[\s]*[,]?nodev" ]]
+    if [[ $dr1_1_5 == "[\s]*[,]?noexec" ]]
     then
         echo $EXPECTED $dr1_1_5 | tee -a $LOG
         echo $RAPP | tee -a $LOG
@@ -155,8 +155,8 @@ else
 
         echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^[0-9]/d' /etc/fstab.backup
-        echo "sed -i '/^<.*/d' /etc/fstab.backup" | tee -a $LOG
-        sed -i '/^<.*/d' /etc/fstab.backup
+        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        sed -i 's/^< //' /etc/fstab.backup
         echo "sed -i '/^---.*/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^---.*/d' /etc/fstab.backup
         echo "sed -i '/^>.*/d' /etc/fstab.backup" | tee -a $LOG

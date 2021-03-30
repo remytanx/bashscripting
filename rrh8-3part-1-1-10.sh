@@ -52,10 +52,12 @@ then
         # echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
         # sed -i 's/^< //' /etc/fstab.backup
 
+
+        # This is now deleting everything which makes the diff useless... 30 March 2021...
         echo "sed -i '/^[0-9]/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^[0-9]/d' /etc/fstab.backup
-        echo "sed -i '/^<.*/d' /etc/fstab.backup" | tee -a $LOG
-        sed -i '/^<.*/d' /etc/fstab.backup
+        echo "sed -i 's/^< //' /etc/fstab.backup" | tee -a $LOG
+        sed -i 's/^< //' /etc/fstab.backup
         echo "sed -i '/^---.*/d' /etc/fstab.backup" | tee -a $LOG
         sed -i '/^---.*/d' /etc/fstab.backup
         echo "sed -i '/^>.*/d' /etc/fstab.backup" | tee -a $LOG
