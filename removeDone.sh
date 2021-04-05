@@ -66,6 +66,13 @@ unset r1_1_5
 unset dr1_1_5
 unset r1_1_8
 unset dr1_1_8
+unset r1_1_9
+unset dr1_1_9
+unset r1_2_1
+unset dr1_2_1
+unset r1_2_4
+unset dr1_2_4
+
 
 unset LOG
 unset REXEC
