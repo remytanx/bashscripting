@@ -211,3 +211,34 @@
 
 # echo "Remove /root/checkVar.txt" | tee -a $LOG
 # rm -rf /root/checkVar.txt
+
+echo "Create a checkVar.txt file."
+touch /root/checkVar.txt
+
+echo -e "Check for gpgcheck=1"
+# grep -r 'gpgcheck=10' /etc/yum.repos.d/ | tee -a /root/checkVar.txt
+# grep -r 'gpgcheck=10' /etc/yum.conf | tee -a /root/checkVar.txt
+grep -r 'gpgcheck=1' yum.conf | tee -a /root/checkVar.txt
+
+r1_2_4=$(cat /root/checkVar.txt)
+echo 'Set Variable: $r1.2.4="'$r1_2_4'"'
+
+echo "Remove /root/checkVar.txt"
+rm -rf /root/checkVar.txt
+
+touch changelog.txt
+
+if [[ -z $r1_2_4 ]]
+then
+    sed -i "s/gpgcheck=.*/gpgcheck=1/w changelog.txt" yum.conf
+    if [ -s changelog.txt ]; then
+        echo "# CHANGES MADE, DO SOME STUFF HERE"
+    else
+        echo "# NO CHANGES MADE, DO SOME OTHER STUFF HERE"
+    fi
+else
+    echo -e "Got things"
+fi
+
+rm -rf changelog.txt
+unset r1_2_4

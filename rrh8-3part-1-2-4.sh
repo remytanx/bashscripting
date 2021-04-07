@@ -1,28 +1,29 @@
 #!/bin/bash
 
 ##################################################################
-# 1.2.4 Ensure Red Hat Subscription Manager connection is configured : [WARNING]
-echo -e "\n## 1.2.4 Ensure Red Hat Subscription Manager connection is configured : [WARNING]" | tee -a $LOG
+# 1.2.4 Ensure gpgcheck is globally activated"" : [FAILED]
+echo -e "\n## 1.2.4 Ensure gpgcheck is globally activated : [FAILED]" | tee -a $LOG
 
 # Check for the following output
 echo "Create a checkVar.txt file." | tee -a $LOG
 touch /root/checkVar.txt
 
-echo -e "Check for subscription-manager registration" | tee -a $LOG
-/usr/bin/subscription-manager identity 2> /root/checkVar.txt
+echo -e "Check for gpgcheck=1" | tee -a $LOG
+grep -r 'gpgcheck=1' /etc/yum.repos.d/ | tee -a /root/checkVar.txt
+grep -r 'gpgcheck=1' /etc/yum.conf | tee -a /root/checkVar.txt
 
 r1_2_4=$(cat /root/checkVar.txt)
 echo 'Set Variable: $r1.2.4="'$r1_2_4'"' | tee -a $LOG
 
-echo "Remove /root/checkVar.txt" | tee -a $LOG
+echo "Remove /root/checkVar.txt" | tee -a $LOG 
 rm -rf /root/checkVar.txt
 
-if [[ $r1_2_4 == "This system is not yet registered. Try 'subscription-manager register --help' for more information." ]]
+if [[ -z $r1_2_4 ]]
 then
     echo -e "1.2.4" $REXEC | tee -a $LOG
 
     # Remediation
-    echo "There will be no remediation as this is a Standalone Server." | tee -a $LOG
+    echo "e" | tee -a $LOG
 
     # After remediation
     echo "Create a checkVar.txt file." | tee -a $LOG
