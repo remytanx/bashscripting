@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#ps -fu nobody | awk '/ent_ha./{print $2}' | xargs --no-run-if-empty kill
+#ps aux | grep nobody
+ps -fu root | awk '/ent_ha./{print $2}' | xargs --no-run-if-empty kill
+ps aux | grep root
