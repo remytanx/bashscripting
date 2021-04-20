@@ -1,0 +1,13 @@
+[local-repo-in-iso-BaseOS-by-yum-repo-config-helper]
+name=Red Hat Enterprise Linux \$releasever - BaseOS - \$basearch (DVD)
+baseurl=file:///mnt/disc/BaseOS
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[local-repo-in-iso-AppStream-by-yum-repo-config-helper]
+name=Red Hat Enterprise Linux \$releasever - AppStream - \$basearch (DVD)
+baseurl=file:///mnt/disc/AppStream
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
